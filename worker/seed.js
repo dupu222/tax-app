@@ -162,7 +162,7 @@ export async function createDefaultStore() {
         departureDate: '',
       },
     ],
-    taxableYears: ['2025', '2024', '2023', '2022'],
+    taxableYears: ['2026', '2025', '2024', '2023', '2022'],
     categories: {
       A02: [
         { title: '工资薪金所得', value: 'wage' },

@@ -236,6 +236,15 @@ describe('taxable income list', () => {
     const body = await response.json();
     assert.deepEqual(body.result, ['2026', '2025', '2024', '2023', '2022']);
   });
+
+  it('seeds 2026 in the year list without payroll rows in git', async () => {
+    const store = await createDefaultStore();
+    assert.deepEqual(store.taxableYears, ['2026', '2025', '2024', '2023', '2022']);
+    assert.equal(
+      store.taxableIncomes.some((item) => String(item.annual) === '2026'),
+      false,
+    );
+  });
 });
 
 describe('password helper stays deterministic for seed users', () => {
