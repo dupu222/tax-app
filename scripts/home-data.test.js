@@ -1,6 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { NEWS_TABS, QUICK_CARDS, SEARCH_FUNCTIONS } from '../src/views/tabbar/home/home-data.js';
+import {
+  HOME_ASSETS,
+  NEWS_MAP,
+  NEWS_TABS,
+  QUICK_CARDS,
+  SEARCH_FUNCTIONS,
+} from '../src/views/tabbar/home/home-data.js';
 
 describe('latest home data', () => {
   it('keeps the four official quick cards and routes', () => {
@@ -19,6 +25,21 @@ describe('latest home data', () => {
     assert.deepEqual(
       NEWS_TABS.map((item) => item.label),
       ['警示案例', '通知公告', '热点问题', '政策解读'],
+    );
+  });
+
+  it('points homepage illustrations to official origin-derived pngs', () => {
+    assert.match(HOME_ASSETS.hero, /\.png$/);
+    assert.match(HOME_ASSETS.heroEnter, /\.png$/);
+    assert.match(HOME_ASSETS.oldYoung, /\.png$/);
+    assert.match(HOME_ASSETS.taxMemory, /\.png$/);
+    assert.equal(
+      QUICK_CARDS.every((item) => item.icon.endsWith('.png')),
+      true,
+    );
+    assert.equal(
+      Object.values(NEWS_MAP).every((list) => list.every((item) => item.image.endsWith('.png'))),
+      true,
     );
   });
 

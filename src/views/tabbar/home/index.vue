@@ -24,13 +24,13 @@
       <div class="hero-copy">
         <div class="hero-title">2025综合所得年度汇算</div>
         <div class="hero-desc">已于6月30日结束，您可进入本专题页查看记录或补办年度汇算</div>
-        <button class="hero-btn" type="button">进入专题页</button>
+        <img class="hero-btn" :src="HOME_ASSETS.heroEnter" alt="进入专题页" />
       </div>
       <img class="hero-art" :src="HOME_ASSETS.hero" alt="" />
     </div>
 
     <div class="section-head">重点服务推荐</div>
-    <div class="deduct-card">
+    <div class="deduct-card" :style="{ backgroundImage: `url(${HOME_ASSETS.deductBg})` }">
       <div class="deduct-top">
         <div class="deduct-name">
           <img :src="HOME_ASSETS.fire" alt="" />
@@ -161,7 +161,7 @@ onMounted(async () => {
         id: item.id || `hot-${index}`,
         title: item.title,
         date: item.date || '2025-03-01',
-        image: '/seed/library/public/hot-card-1.png',
+        image: '/seed/home-v2/news-hot-1.png',
         side: 'right',
       })),
     };
@@ -214,8 +214,9 @@ onMounted(async () => {
 }
 
 .scan-icon {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
 }
 
 .ticker {
@@ -253,9 +254,9 @@ onMounted(async () => {
 
 .hero-card {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   margin: 0 16px 16px;
-  padding: 16px 8px 16px 16px;
+  padding: 14px 6px 14px 16px;
   overflow: hidden;
   background: #fff;
   border-radius: 16px;
@@ -282,19 +283,22 @@ onMounted(async () => {
 }
 
 .hero-btn {
-  height: 32px;
-  padding: 0 16px;
-  color: #fff;
-  font-size: 13px;
-  background: #3d8bff;
-  border: 0;
-  border-radius: 16px;
+  display: block;
+  height: 30px;
+  width: auto;
+  max-width: 148px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .hero-art {
-  width: 140px;
-  height: 116px;
+  flex-shrink: 0;
+  width: 152px;
+  height: 124px;
+  margin-left: 4px;
   object-fit: contain;
+  object-position: right center;
+  filter: drop-shadow(0 6px 10px rgba(61, 139, 255, 0.16));
 }
 
 .section-head {
@@ -306,9 +310,12 @@ onMounted(async () => {
 
 .deduct-card {
   margin: 0 16px 14px;
-  padding: 14px;
+  padding: 14px 14px 12px;
   color: #fff;
-  background: linear-gradient(135deg, #4da3ff 0%, #2f7cff 100%);
+  background-color: #3d8bff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
   border-radius: 16px;
   box-shadow: 0 10px 18px rgba(47, 124, 255, 0.22);
 }
@@ -326,9 +333,10 @@ onMounted(async () => {
   font-weight: 600;
 
   img {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     margin-right: 6px;
+    object-fit: contain;
   }
 }
 
@@ -365,14 +373,15 @@ onMounted(async () => {
   font-size: 12px;
 
   img {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     object-fit: cover;
-    border: 1px solid #fff;
+    background: #dbeafe;
+    border: 1.5px solid #fff;
     border-radius: 50%;
 
     + img {
-      margin-left: -6px;
+      margin-left: -8px;
     }
   }
 
@@ -405,9 +414,9 @@ onMounted(async () => {
 
 .quick-card {
   display: flex;
-  flex: 0 0 110px;
+  flex: 0 0 114px;
   flex-direction: column;
-  min-height: 168px;
+  min-height: 172px;
   padding: 14px 12px 12px;
   background: #fff;
   border-radius: 16px;
@@ -415,9 +424,11 @@ onMounted(async () => {
   scroll-snap-align: start;
 
   img {
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
     margin-bottom: 10px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 6px rgba(31, 41, 55, 0.12));
   }
 }
 
@@ -468,15 +479,17 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   margin: 0 16px 16px;
-  padding: 14px 8px 14px 16px;
+  padding: 12px 4px 12px 16px;
   overflow: hidden;
   background: linear-gradient(90deg, #3d8bff 0%, #6cb6ff 100%);
   border-radius: 16px;
 
   img {
-    width: 118px;
-    height: 88px;
+    flex-shrink: 0;
+    width: 108px;
+    height: 92px;
     object-fit: contain;
+    filter: drop-shadow(0 6px 10px rgba(15, 70, 160, 0.2));
   }
 }
 
@@ -542,10 +555,11 @@ onMounted(async () => {
   box-shadow: 0 4px 12px rgba(90, 140, 200, 0.06);
 
   img {
-    width: 86px;
-    height: 64px;
+    flex-shrink: 0;
+    width: 92px;
+    height: 68px;
     margin-left: 10px;
-    object-fit: cover;
+    object-fit: contain;
     background: #eef6ff;
     border-radius: 10px;
   }
@@ -589,16 +603,17 @@ onMounted(async () => {
   align-items: center;
   justify-content: space-between;
   margin: 0 16px 8px;
-  padding: 8px 8px 8px 16px;
+  padding: 10px 4px 10px 16px;
   overflow: hidden;
   background: linear-gradient(90deg, #ffe7c2 0%, #ffd18a 100%);
   border-radius: 16px;
 
   img {
-    width: 120px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 12px;
+    flex-shrink: 0;
+    width: 148px;
+    height: 68px;
+    object-fit: contain;
+    object-position: right bottom;
   }
 }
 
