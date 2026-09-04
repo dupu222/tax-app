@@ -13,8 +13,11 @@ dist-ssr
 *.local
 .wrangler
 .dev.vars
+.resources
 r2-data.json
 data.json
+__pycache__/
+*.pyc
 
 # Editor directories and files
 # .vscode/*

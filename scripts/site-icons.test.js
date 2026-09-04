@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -41,5 +41,51 @@ describe('站点通用 icon 与 iOS apple-touch-icon', () => {
     assert.equal(existsSync(join(root, 'public/favicon.ico')), true);
     assert.deepEqual(pngSize('public/icon.png'), { width: 192, height: 192 });
     assert.deepEqual(pngSize('public/apple-touch-icon.png'), { width: 180, height: 180 });
+    assert.deepEqual(pngSize('public/launch.png').width > 0, true);
+  });
+
+  it('首页声明 iOS 启动图', () => {
+    assert.match(read('index.html'), /<link\s+rel="apple-touch-startup-image"\s+href="\/launch\.png"\s*\/?>/);
+  });
+});
+
+describe('种子资源文件', () => {
+  it('seed.js 引用的图片都在 public/seed 下', async () => {
+    const { createDefaultStore } = await import('../worker/seed.js');
+    const store = await createDefaultStore();
+    const urls = [
+      ...store.swipers.map((item) => item.picture),
+      ...store.images.map((item) => item.image),
+      ...store.businesses.map((item) => item.icon),
+      ...store.icons.flatMap((group) => group.list.map((item) => item.icon)),
+      store.users[0].avatar,
+    ];
+    urls.forEach((url) => {
+      assert.match(url, /^\/seed\/.+\.(png|svg)$/);
+      assert.equal(existsSync(join(root, 'public', url)), true, url);
+    });
+  });
+
+  it('页面硬编码的 /seed 图片都在磁盘上', () => {
+    const seedUrl = /\/seed\/[A-Za-z0-9_./-]+\.(?:png|svg)/g;
+    const files = [];
+    const walk = (dir) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const full = join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (entry.name.endsWith('.vue') || entry.name.endsWith('.html')) files.push(full);
+      }
+    };
+    walk(join(root, 'src'));
+    files.push(join(root, 'index.html'), join(root, 'public/admin/index.html'));
+    const urls = new Set();
+    for (const file of files) {
+      const text = readFileSync(file, 'utf8');
+      for (const match of text.matchAll(seedUrl)) urls.add(match[0]);
+    }
+    assert.ok(urls.size > 0);
+    for (const url of urls) {
+      assert.equal(existsSync(join(root, 'public', url)), true, url);
+    }
   });
 });

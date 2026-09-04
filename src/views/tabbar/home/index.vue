@@ -69,11 +69,14 @@
           :class="`sort-business--bac${index}`"
           @click="toPage(item)"
         >
-          <div class="text-box">
-            <div class="business-title">{{ item.title }}</div>
-            <div class="business-text">{{ item.description }}</div>
+          <div class="business-main">
+            <img v-if="item.icon" :src="item.icon" class="business-icon" alt="" />
+            <div class="text-box">
+              <div class="business-title">{{ item.title }}</div>
+              <div class="business-text">{{ item.description }}</div>
+            </div>
           </div>
-          <img src="../../../assets/home/right-jiantou.png" alt="" />
+          <img class="right-arrow" src="../../../assets/home/right-jiantou.png" alt="" />
         </div>
       </div>
       <!-- 热点问题 -->
@@ -379,6 +382,7 @@ nextTick(() => {
         margin-bottom: 2px;
         width: 50px;
         height: 50px;
+        object-fit: contain;
       }
     }
   }
@@ -421,6 +425,7 @@ nextTick(() => {
       margin: 20px 0 0 18px;
       width: 344px;
       height: 146px;
+      object-fit: cover;
     }
   }
   // 常用业务
@@ -481,6 +486,18 @@ nextTick(() => {
     &--bac3 {
       box-shadow: 2px 0px 0px 0px #edca92 inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
     }
+    .business-main {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+    }
+    .business-icon {
+      width: 36px;
+      height: 36px;
+      margin-right: 10px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
     .business-title {
       margin-bottom: 5px;
       font-size: 14px;
@@ -494,10 +511,11 @@ nextTick(() => {
       color: #929191;
       line-height: 16px;
     }
-    img {
+    .right-arrow {
       width: 14px;
       height: 14px;
       margin-left: 15px;
+      flex-shrink: 0;
     }
   }
 

@@ -29,4 +29,22 @@ describe('R2-backed store', () => {
     const store = await loadStore({});
     assert.deepEqual(store.taxableYears, (await createDefaultStore()).taxableYears);
   });
+
+  it('upgrades leftover seed SVG placeholders to official PNG assets', async () => {
+    const bucket = createMemoryBucket();
+    const legacy = structuredClone(await createDefaultStore());
+    legacy.swipers[0].picture = '/seed/banner-1.svg';
+    legacy.icons[0].list[0].icon = '/seed/icon-tax.svg';
+    legacy.images[0].image = '/seed/topic.svg';
+    delete legacy.businesses[0].icon;
+    legacy.users[0].avatar = '';
+    await saveStore({ TAX_DATA: bucket }, legacy);
+
+    const store = await loadStore({ TAX_DATA: bucket });
+    assert.equal(store.swipers[0].picture, '/seed/banner-1.png');
+    assert.equal(store.icons[0].list[0].icon, '/seed/icon-tax.png');
+    assert.equal(store.images[0].image, '/seed/topic.png');
+    assert.equal(store.businesses[0].icon, '/seed/icon-ndhs.png');
+    assert.equal(store.users[0].avatar, '/seed/avatar-demo.png');
+  });
 });
