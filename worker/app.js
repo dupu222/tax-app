@@ -136,7 +136,7 @@ async function handleJeecg(request, env, path, url) {
   }
 
   if (path === '/jeecg-boot/tax/taxTaxableIncome/appYearList' && request.method === 'GET') {
-    return jsonResponse(ok(store.taxableYears));
+    return jsonResponse(ok(sortYearsDesc(store.taxableYears)));
   }
 
   if (path === '/jeecg-boot/tax/taxTaxableIncome/appList' && request.method === 'POST') {
@@ -147,12 +147,14 @@ async function handleJeecg(request, env, path, url) {
       .split(',')
       .map((item) => item.trim())
       .filter(Boolean);
-    const list = store.taxableIncomes.filter((item) => {
-      const sameUser = !item.userId || item.userId === user.value.id;
-      const sameYear = !body.annual || item.annual === body.annual;
-      const sameType = !types.length || types.includes(item.incomeTypeValue) || types.includes(item.incomeType);
-      return sameUser && sameYear && sameType;
-    });
+    const list = store.taxableIncomes
+      .filter((item) => {
+        const sameUser = !item.userId || item.userId === user.value.id;
+        const sameYear = !body.annual || item.annual === body.annual;
+        const sameType = !types.length || types.includes(item.incomeTypeValue) || types.includes(item.incomeType);
+        return sameUser && sameYear && sameType;
+      })
+      .sort(compareTaxableIncomeNewestFirst);
     const creditCount = sumMoney(list.map((item) => item.credit));
     const taxDeclaredCount = sumMoney(list.map((item) => item.taxDeclared));
     return jsonResponse(ok({ list, creditCount, taxDeclaredCount }));
@@ -225,4 +227,16 @@ async function readJson(request) {
 function sumMoney(values) {
   const total = values.reduce((sum, value) => sum + Number(value || 0), 0);
   return total.toFixed(2);
+}
+
+function sortYearsDesc(years) {
+  return [...(Array.isArray(years) ? years : [])].sort((a, b) => Number(b) - Number(a));
+}
+
+function compareTaxableIncomeNewestFirst(a, b) {
+  const byDate = String(b.taxationDate || '').localeCompare(String(a.taxationDate || ''));
+  if (byDate !== 0) {
+    return byDate;
+  }
+  return String(a.incomeCategory || '').localeCompare(String(b.incomeCategory || ''));
 }
