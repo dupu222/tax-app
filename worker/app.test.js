@@ -192,6 +192,61 @@ describe('admin APIs', () => {
   });
 });
 
+describe('taxable income list', () => {
+  it('returns the requested year newest first without depending on seed payroll figures', async () => {
+    const env = createEnv();
+    const seeded = await createDefaultStore();
+    const sample = seeded.taxableIncomes.find((item) => item.incomeTypeValue === 'wage');
+    seeded.taxableIncomes.push({
+      ...sample,
+      id: 'income-sort-newer',
+      taxationDate: '2022-12',
+      credit: '100.00',
+      taxDeclared: '1.00',
+      list: [],
+    });
+    await env.TAX_DATA.put(STORE_KEY, JSON.stringify(seeded));
+
+    const login = await api(env, '/api/jeecg-boot/sys/appLogin', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ username: '19673239497', password: '123456' }),
+    });
+    const token = (await login.json()).result.token;
+    const response = await api(env, '/api/jeecg-boot/tax/taxTaxableIncome/appList', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'X-Access-Token': token,
+      },
+      body: JSON.stringify({ annual: '2022', incomeType: 'wage' }),
+    });
+    const body = await response.json();
+    assert.equal(body.result.list[0].id, 'income-sort-newer');
+    assert.equal(body.result.list[0].taxationDate, '2022-12');
+  });
+
+  it('returns taxable years newest first even if stored out of order', async () => {
+    const env = createEnv();
+    const seeded = await createDefaultStore();
+    seeded.taxableYears = ['2022', '2026', '2023', '2025', '2024'];
+    await env.TAX_DATA.put(STORE_KEY, JSON.stringify(seeded));
+
+    const response = await api(env, '/api/jeecg-boot/tax/taxTaxableIncome/appYearList');
+    const body = await response.json();
+    assert.deepEqual(body.result, ['2026', '2025', '2024', '2023', '2022']);
+  });
+
+  it('seeds 2026 in the year list without payroll rows in git', async () => {
+    const store = await createDefaultStore();
+    assert.deepEqual(store.taxableYears, ['2026', '2025', '2024', '2023', '2022']);
+    assert.equal(
+      store.taxableIncomes.some((item) => String(item.annual) === '2026'),
+      false,
+    );
+  });
+});
+
 describe('password helper stays deterministic for seed users', () => {
   it('matches the seeded demo password', async () => {
     assert.equal(await hashPassword('123456'), await hashPassword('123456'));

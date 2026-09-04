@@ -1,5 +1,5 @@
 <template>
-  <NavbarPage label="收入纳税明细查询">
+  <NavbarPage label="收入纳税明细">
     <template v-if="deatilsData?.creditCount" #navbarRight>
       <div class="shensu" @click.stop="$router.push('/blank-loading')">批量申诉</div>
     </template>
@@ -36,7 +36,7 @@
       <div v-if="deatilsData?.list && deatilsData?.list?.length" class="deatils-list">
         <div v-for="item in deatilsData.list" :key="item.id" class="payroll-list" @click="goPage(item.id)">
           <div class="payroll-list-top">
-            <div class="payroll-list-title">{{ item.incomeType }}</div>
+            <div class="payroll-list-title">{{ displayIncomeType(item.incomeType) }}</div>
             <div class="payroll-list-time">{{ item.taxationDate }}</div>
           </div>
           <!-- 薪金详情 -->
@@ -44,7 +44,7 @@
             <div class="payroll-list-main-describe">
               <div class="hangju">
                 <span>所得项目小类：</span>
-                <span>{{ item.incomeCategory }}</span>
+                <span>{{ displayIncomeCategory(item.incomeCategory) }}</span>
               </div>
               <div class="hangju">
                 <span>扣缴义务人：</span>
@@ -78,6 +78,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { getTaxDeatilsList } from '@/api/service.js';
+import { displayIncomeCategory, displayIncomeType } from '@/utils/tax-labels.js';
 
 const router = useRouter();
 const route = useRoute();
@@ -126,7 +127,7 @@ initTaxDeatilsList();
 }
 // 合计
 .total {
-  margin-top: 12px;
+  margin-top: 10.2px;
   padding: 18px;
   width: 100%;
   height: 95px;
@@ -196,7 +197,7 @@ initTaxDeatilsList();
 }
 // 工资薪金列表
 .payroll-list {
-  margin: 14px 0;
+  margin: 11.9px 0;
   padding: 20px 16px 0 16px;
   width: 100%;
   height: 174px;

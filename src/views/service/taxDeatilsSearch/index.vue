@@ -53,19 +53,22 @@ const router = useRouter();
 
 const columns = ref([]);
 // 年分选择
+const fieldValue = ref('');
+const pickerVlaue = ref([]);
+
 const getTaxTime = async () => {
   const { result } = await getTaxDeatilsTime();
-  result.forEach((e) => {
-    columns.value.push({
-      text: e,
-      value: e,
-    });
-  });
+  const years = (Array.isArray(result) ? [...result] : []).sort((a, b) => Number(b) - Number(a));
+  columns.value = years.map((year) => ({
+    text: year,
+    value: year,
+  }));
+  if (years.length) {
+    fieldValue.value = years[0];
+    pickerVlaue.value = [years[0]];
+  }
 };
 getTaxTime();
-
-const fieldValue = ref('2022');
-const pickerVlaue = ref(['2022']);
 const showPicker = ref(false);
 const onConfirm = ({ selectedOptions }) => {
   fieldValue.value = selectedOptions[0].value;
