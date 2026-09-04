@@ -35,17 +35,23 @@ export async function saveStore(env, store) {
   await bucket.put(STORE_KEY, JSON.stringify(normalizeStore(store)));
 }
 
+function iconGroupKey(group) {
+  return `${Number(group.type)}:${group.modeClassify || ''}`;
+}
+
 async function hydrateMissingDefaults(store) {
-  const existingTypes = new Set(store.icons.map((item) => Number(item.type)));
-  if ([1, 2, 3, 4].every((type) => existingTypes.has(type))) {
+  const existingKeys = new Set(store.icons.map(iconGroupKey));
+  const requiredKeys = ['1:', '2:证明开具', '2:税费申报', '3:申报信息查询', '3:备案信息查询', '3:其他查询', '4:'];
+  if (requiredKeys.every((key) => existingKeys.has(key))) {
     return { store, changed: false };
   }
   const defaults = await createDefaultStore();
   let changed = false;
   defaults.icons.forEach((group) => {
-    if (!existingTypes.has(Number(group.type))) {
+    const key = iconGroupKey(group);
+    if (!existingKeys.has(key)) {
       store.icons.push(group);
-      existingTypes.add(Number(group.type));
+      existingKeys.add(key);
       changed = true;
     }
   });

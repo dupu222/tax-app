@@ -77,13 +77,35 @@ describe('public tax APIs', () => {
 
     const tax = await (await api(env, '/api/jeecg-boot/tax/taxIcon/appList?type=2')).json();
     const service = await (await api(env, '/api/jeecg-boot/tax/taxIcon/appList?type=3')).json();
-    assert.equal(
-      tax.result.some((item) => item.modeClassify === '证明开具'),
-      true,
+    assert.deepEqual(
+      tax.result.map((item) => item.modeClassify),
+      ['证明开具', '税费申报'],
     );
-    assert.equal(
-      service.result.some((item) => item.modeClassify === '申报信息查询'),
-      true,
+    assert.deepEqual(
+      service.result.map((item) => item.modeClassify),
+      ['申报信息查询', '备案信息查询', '其他查询'],
+    );
+  });
+
+  it('appends remaining icon groups when a type was only partially hydrated', async () => {
+    const env = createEnv();
+    const legacy = await createDefaultStore();
+    legacy.icons = [
+      ...legacy.icons.filter((item) => [1, 4].includes(Number(item.type))),
+      legacy.icons.find((item) => item.modeClassify === '证明开具'),
+      legacy.icons.find((item) => item.modeClassify === '申报信息查询'),
+    ];
+    await env.TAX_DATA.put(STORE_KEY, JSON.stringify(legacy));
+
+    const tax = await (await api(env, '/api/jeecg-boot/tax/taxIcon/appList?type=2')).json();
+    const service = await (await api(env, '/api/jeecg-boot/tax/taxIcon/appList?type=3')).json();
+    assert.deepEqual(
+      tax.result.map((item) => item.modeClassify),
+      ['证明开具', '税费申报'],
+    );
+    assert.deepEqual(
+      service.result.map((item) => item.modeClassify),
+      ['申报信息查询', '备案信息查询', '其他查询'],
     );
   });
 });
