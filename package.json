@@ -3,11 +3,25 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@10.11.1",
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "vite --mode dev",
-    "build": "vite build",
+    "build": "vite build --mode prd",
     "build:prd": "vite build --mode prd",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:cf": "wrangler dev",
+    "cf:deploy": "wrangler deploy",
+    "test": "node --test worker/*.test.js"
+  },
+  "cloudflare": {
+    "bindings": {
+      "API_UPSTREAM": {
+        "description": "后端 API 根地址。Worker 会把 `/api/*` 代理到该地址，避免浏览器 HTTPS 页面直连 HTTP 接口。"
+      }
+    }
   },
   "dependencies": {
     "amfe-flexible": "2.2.1",
@@ -15,7 +29,7 @@
     "pinia": "2.0.30",
     "pinia-plugin-persistedstate": "3.0.2",
     "vant": "4.0.10",
-    "vue": "^3.2.45",
+    "vue": "3.2.47",
     "vue-router": "4.1.6"
   },
   "devDependencies": {
@@ -41,6 +55,10 @@
     "stylelint-order": "6.0.2",
     "unplugin-vue-components": "0.23.0",
     "vite": "^4.1.0",
-    "vue-eslint-parser": "9.1.0"
+    "vue-eslint-parser": "9.1.0",
+    "wrangler": "^4.37.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "workerd", "vue-demi"]
   }
 }
