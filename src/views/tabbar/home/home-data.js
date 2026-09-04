@@ -2,6 +2,7 @@
 export const HOME_ASSETS = {
   scan: '/seed/home-v2/icon-scan.svg',
   fire: '/seed/home-v2/icon-fire.svg',
+  bell: '/seed/home-v2/icon-bell.svg',
   hero: '/seed/home-v2/hero-annual.png',
   heroEnter: '/seed/home-v2/hero-enter.png',
   deductBg: '/seed/home-v2/deduct-bg.png',

@@ -33,6 +33,8 @@ describe('latest home data', () => {
     assert.match(HOME_ASSETS.heroEnter, /\.png$/);
     assert.match(HOME_ASSETS.oldYoung, /\.png$/);
     assert.match(HOME_ASSETS.taxMemory, /\.png$/);
+    assert.match(HOME_ASSETS.bell, /icon-bell\.svg$/);
+    assert.match(HOME_ASSETS.scan, /icon-scan\.svg$/);
     assert.equal(
       QUICK_CARDS.every((item) => item.icon.endsWith('.png')),
       true,

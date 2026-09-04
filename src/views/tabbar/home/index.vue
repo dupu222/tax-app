@@ -11,7 +11,7 @@
     </div>
 
     <div class="ticker" @click="openPage('通知公告')">
-      <img class="ticker-bell" src="/seed/icon-bell.png" alt="" />
+      <img class="ticker-bell" :src="HOME_ASSETS.bell" alt="" />
       <div class="ticker-mask">
         <div class="ticker-track">
           <span>{{ NOTICE_TEXT }}</span>
@@ -202,7 +202,7 @@ onMounted(async () => {
   padding: 0 14px;
   color: #9aa3b2;
   font-size: 14px;
-  background: #fff;
+  background: #f4f9ff;
   border-radius: 18px;
   box-shadow: 0 4px 12px rgba(80, 140, 210, 0.08);
 
@@ -214,8 +214,8 @@ onMounted(async () => {
 }
 
 .scan-icon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 
@@ -230,8 +230,8 @@ onMounted(async () => {
   border-radius: 16px;
 
   .ticker-bell {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     margin-right: 8px;
     object-fit: contain;
   }
@@ -256,7 +256,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   margin: 0 16px 16px;
-  padding: 14px 6px 14px 16px;
+  padding: 12px 0 12px 16px;
   overflow: hidden;
   background: #fff;
   border-radius: 16px;
@@ -284,21 +284,21 @@ onMounted(async () => {
 
 .hero-btn {
   display: block;
-  height: 30px;
+  height: 28px;
   width: auto;
-  max-width: 148px;
+  max-width: 132px;
   object-fit: contain;
   object-position: left center;
 }
 
 .hero-art {
   flex-shrink: 0;
-  width: 152px;
-  height: 124px;
-  margin-left: 4px;
+  width: 168px;
+  height: 128px;
+  margin-left: 2px;
   object-fit: contain;
   object-position: right center;
-  filter: drop-shadow(0 6px 10px rgba(61, 139, 255, 0.16));
+  filter: drop-shadow(0 8px 12px rgba(61, 139, 255, 0.18));
 }
 
 .section-head {
@@ -311,11 +311,12 @@ onMounted(async () => {
 .deduct-card {
   margin: 0 16px 14px;
   padding: 14px 14px 12px;
+  overflow: hidden;
   color: #fff;
-  background-color: #3d8bff;
+  background-color: #4ea2ff;
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
+  background-position: center top;
+  background-size: cover;
   border-radius: 16px;
   box-shadow: 0 10px 18px rgba(47, 124, 255, 0.22);
 }
@@ -401,7 +402,7 @@ onMounted(async () => {
 
 .quick-scroll {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   padding: 4px 16px 16px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -414,19 +415,19 @@ onMounted(async () => {
 
 .quick-card {
   display: flex;
-  flex: 0 0 114px;
+  flex: 0 0 108px;
   flex-direction: column;
-  min-height: 172px;
-  padding: 14px 12px 12px;
+  min-height: 168px;
+  padding: 12px 10px 12px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 6px 16px rgba(90, 140, 200, 0.08);
   scroll-snap-align: start;
 
   img {
-    width: 46px;
-    height: 46px;
-    margin-bottom: 10px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 8px;
     object-fit: contain;
     filter: drop-shadow(0 4px 6px rgba(31, 41, 55, 0.12));
   }
@@ -486,10 +487,11 @@ onMounted(async () => {
 
   img {
     flex-shrink: 0;
-    width: 108px;
-    height: 92px;
+    width: 118px;
+    height: 100px;
     object-fit: contain;
-    filter: drop-shadow(0 6px 10px rgba(15, 70, 160, 0.2));
+    object-position: right center;
+    filter: drop-shadow(0 6px 10px rgba(15, 70, 160, 0.25));
   }
 }
 
@@ -556,10 +558,10 @@ onMounted(async () => {
 
   img {
     flex-shrink: 0;
-    width: 92px;
-    height: 68px;
+    width: 96px;
+    height: 70px;
     margin-left: 10px;
-    object-fit: contain;
+    object-fit: cover;
     background: #eef6ff;
     border-radius: 10px;
   }
@@ -610,10 +612,13 @@ onMounted(async () => {
 
   img {
     flex-shrink: 0;
-    width: 148px;
-    height: 68px;
+    width: 168px;
+    height: 78px;
     object-fit: contain;
     object-position: right bottom;
+    filter: drop-shadow(0 2px 6px rgba(194, 65, 12, 0.12));
+    mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
   }
 }
 
