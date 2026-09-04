@@ -29,8 +29,7 @@ describe('latest home data', () => {
   });
 
   it('points homepage illustrations to official origin-derived pngs', () => {
-    assert.match(HOME_ASSETS.hero, /\.png$/);
-    assert.match(HOME_ASSETS.heroEnter, /\.png$/);
+    assert.match(HOME_ASSETS.hero, /hero-bg\.png$/);
     assert.match(HOME_ASSETS.oldYoung, /\.png$/);
     assert.match(HOME_ASSETS.taxMemory, /\.png$/);
     assert.match(HOME_ASSETS.bell, /icon-bell\.svg$/);

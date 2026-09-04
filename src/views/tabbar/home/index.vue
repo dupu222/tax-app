@@ -20,13 +20,16 @@
       </div>
     </div>
 
-    <div class="hero-card" @click="openPage('2025综合所得年度汇算')">
+    <div
+      class="hero-card"
+      :style="{ backgroundImage: `url(${HOME_ASSETS.hero})` }"
+      @click="openPage('2025综合所得年度汇算')"
+    >
       <div class="hero-copy">
         <div class="hero-title">2025综合所得年度汇算</div>
         <div class="hero-desc">已于6月30日结束，您可进入本专题页查看记录或补办年度汇算</div>
-        <img class="hero-btn" :src="HOME_ASSETS.heroEnter" alt="进入专题页" />
+        <div class="hero-btn">进入专题页</div>
       </div>
-      <img class="hero-art" :src="HOME_ASSETS.hero" alt="" />
     </div>
 
     <div class="section-head">重点服务推荐</div>
@@ -176,7 +179,15 @@ onMounted(async () => {
   height: 100%;
   padding: 0 0 24px;
   overflow: auto;
-  background: linear-gradient(180deg, #d7ebff 0%, #f3f7fc 220px, #f3f7fc 100%);
+  background: linear-gradient(
+    180deg,
+    #4b82f4 0,
+    #5b92f6 52px,
+    #7eacf8 108px,
+    #c5d8ff 148px,
+    #f4f6fa 210px,
+    #f4f6fa 100%
+  );
   -webkit-overflow-scrolling: touch;
 }
 
@@ -185,7 +196,7 @@ onMounted(async () => {
   top: 0;
   z-index: 20;
   padding: 10px 16px 8px;
-  background: linear-gradient(180deg, #d7ebff 0%, #e7f3ff 100%);
+  background: linear-gradient(180deg, #4b82f4 0%, #5b92f6 100%);
 }
 
 .search-row {
@@ -202,9 +213,9 @@ onMounted(async () => {
   padding: 0 14px;
   color: #9aa3b2;
   font-size: 14px;
-  background: #f4f9ff;
+  background: rgba(255, 255, 255, 0.78);
   border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(80, 140, 210, 0.08);
+  box-shadow: none;
 
   .search-icon {
     margin-right: 8px;
@@ -217,6 +228,7 @@ onMounted(async () => {
   width: 24px;
   height: 24px;
   object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .ticker {
@@ -256,15 +268,22 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   margin: 0 16px 16px;
-  padding: 12px 0 12px 16px;
+  padding: 16px 16px 16px 16px;
+  min-height: 136px;
   overflow: hidden;
-  background: #fff;
+  background-color: #e7f2ff;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: cover;
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(90, 140, 200, 0.08);
+  box-shadow: 0 8px 20px rgba(90, 140, 200, 0.12);
 }
 
 .hero-copy {
+  position: relative;
+  z-index: 1;
   flex: 1;
+  max-width: 58%;
   min-width: 0;
 }
 
@@ -283,22 +302,17 @@ onMounted(async () => {
 }
 
 .hero-btn {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 28px;
-  width: auto;
-  max-width: 132px;
-  object-fit: contain;
-  object-position: left center;
-}
-
-.hero-art {
-  flex-shrink: 0;
-  width: 168px;
-  height: 128px;
-  margin-left: 2px;
-  object-fit: contain;
-  object-position: right center;
-  filter: drop-shadow(0 8px 12px rgba(61, 139, 255, 0.18));
+  padding: 0 18px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 28px;
+  background: #3d8bff;
+  border-radius: 14px;
 }
 
 .section-head {
@@ -310,7 +324,7 @@ onMounted(async () => {
 
 .deduct-card {
   margin: 0 16px 14px;
-  padding: 14px 14px 12px;
+  padding: 16px 14px 14px;
   overflow: hidden;
   color: #fff;
   background-color: #4ea2ff;
@@ -352,7 +366,7 @@ onMounted(async () => {
 }
 
 .deduct-tip {
-  margin: 18px 0 16px;
+  margin: 20px 0 18px;
   font-size: 15px;
   text-align: center;
 }
