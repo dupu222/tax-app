@@ -19,7 +19,12 @@ export async function loadStore(env) {
   }
 
   const parsed = await object.json();
-  return normalizeStore(parsed);
+  const store = normalizeStore(parsed);
+  const hydrated = await hydrateMissingDefaults(store);
+  if (hydrated.changed) {
+    await saveStore(env, hydrated.store);
+  }
+  return hydrated.store;
 }
 
 export async function saveStore(env, store) {
@@ -28,6 +33,23 @@ export async function saveStore(env, store) {
     throw new Error('TAX_DATA binding is missing');
   }
   await bucket.put(STORE_KEY, JSON.stringify(normalizeStore(store)));
+}
+
+async function hydrateMissingDefaults(store) {
+  const existingTypes = new Set(store.icons.map((item) => Number(item.type)));
+  if ([1, 2, 3, 4].every((type) => existingTypes.has(type))) {
+    return { store, changed: false };
+  }
+  const defaults = await createDefaultStore();
+  let changed = false;
+  defaults.icons.forEach((group) => {
+    if (!existingTypes.has(Number(group.type))) {
+      store.icons.push(group);
+      existingTypes.add(Number(group.type));
+      changed = true;
+    }
+  });
+  return { store, changed };
 }
 
 function normalizeStore(input) {

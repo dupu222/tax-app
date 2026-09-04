@@ -7,13 +7,16 @@ const service = axios.create({
   timeout: 12000,
 });
 
-const myStore = useMyStore();
+function myStore() {
+  return useMyStore();
+}
 
 /* 请求拦截器 */
 service.interceptors.request.use(
   (config) => {
-    if (myStore.getter_user_info?.token) {
-      config.headers['X-Access-Token'] = myStore.getter_user_info.token;
+    const token = myStore().getter_user_info?.token;
+    if (token) {
+      config.headers['X-Access-Token'] = token;
     }
     //  请求成功处理
     return config;
@@ -34,7 +37,7 @@ service.interceptors.response.use(
     // 响应失败处理
     const dataErr = error.response?.data;
     if (dataErr?.code === 401) {
-      myStore.state_user_info = {};
+      myStore().state_user_info = {};
       router.push({
         name: 'Login',
       });

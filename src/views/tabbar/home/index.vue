@@ -182,7 +182,7 @@ const goPage = (item) => {
       routerName = 'PublicService';
       break;
     default:
-      routerName = 'BlankLoading';
+      routerName = 'EmptyPage';
       break;
   }
   router.push({

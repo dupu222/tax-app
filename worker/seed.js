@@ -15,6 +15,51 @@ const MY_ICONS = [
   { title: '消息订阅', icon: '/seed/icon-message.svg', sortOrder: '10' },
 ];
 
+const TAX_ICONS = [
+  {
+    type: 2,
+    modeClassify: '证明开具',
+    list: [
+      { title: '纳税记录开具', icon: '/seed/icon-tax.svg', sortOrder: '1' },
+      { title: '完税证明开具', icon: '/seed/icon-auth.svg', sortOrder: '2' },
+    ],
+  },
+  {
+    type: 2,
+    modeClassify: '税费申报',
+    list: [
+      { title: '综合所得年度汇算', icon: '/seed/icon-search.svg', sortOrder: '1' },
+      { title: '专项附加扣除填报', icon: '/seed/icon-family.svg', sortOrder: '2' },
+    ],
+  },
+];
+
+const SERVICE_ICONS = [
+  {
+    type: 3,
+    modeClassify: '申报信息查询',
+    list: [
+      { title: '申报查询', icon: '/seed/icon-search.svg', sortOrder: '1' },
+      { title: '专项附加扣除信息查询', icon: '/seed/icon-family.svg', sortOrder: '2' },
+      { title: '收入纳税明细查询', icon: '/seed/icon-company.svg', sortOrder: '3' },
+    ],
+  },
+  {
+    type: 3,
+    modeClassify: '备案信息查询',
+    list: [
+      { title: '税收优惠备案查询', icon: '/seed/icon-auth.svg', sortOrder: '1' },
+    ],
+  },
+  {
+    type: 3,
+    modeClassify: '其他查询',
+    list: [
+      { title: '纳税记录申请查询', icon: '/seed/icon-card.svg', sortOrder: '1' },
+    ],
+  },
+];
+
 export async function createDefaultStore() {
   const passwordHash = await hashPassword('123456');
   return {
@@ -47,10 +92,7 @@ export async function createDefaultStore() {
       { id: 'swipe-1', picture: '/seed/banner-1.svg' },
       { id: 'swipe-2', picture: '/seed/banner-2.svg' },
     ],
-    icons: [
-      { type: 1, list: HOME_ICONS },
-      { type: 4, list: MY_ICONS },
-    ],
+    icons: [{ type: 1, list: HOME_ICONS }, ...TAX_ICONS, ...SERVICE_ICONS, { type: 4, list: MY_ICONS }],
     businesses: [
       { id: 'biz-1', title: '综合所得年度汇算', description: '办理上一年度综合所得汇算清缴' },
       { id: 'biz-2', title: '专项附加扣除填报', description: '填报子女教育、住房租金等扣除' },
