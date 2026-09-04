@@ -181,11 +181,12 @@ onMounted(async () => {
   overflow: auto;
   background: linear-gradient(
     180deg,
-    #4b82f4 0,
-    #5b92f6 52px,
-    #7eacf8 108px,
-    #c5d8ff 148px,
-    #f4f6fa 210px,
+    #3e7af0 0,
+    #4b82f4 48px,
+    #5b92f6 96px,
+    #6fa4f8 132px,
+    #b7d0ff 176px,
+    #f4f6fa 236px,
     #f4f6fa 100%
   );
   -webkit-overflow-scrolling: touch;
@@ -196,7 +197,7 @@ onMounted(async () => {
   top: 0;
   z-index: 20;
   padding: 10px 16px 8px;
-  background: linear-gradient(180deg, #4b82f4 0%, #5b92f6 100%);
+  background: linear-gradient(180deg, #3e7af0 0%, #4b82f4 100%);
 }
 
 .search-row {
@@ -268,13 +269,13 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   margin: 0 16px 16px;
-  padding: 16px 16px 16px 16px;
-  min-height: 136px;
+  padding: 16px 18px 16px 16px;
+  min-height: 140px;
   overflow: hidden;
-  background-color: #e7f2ff;
+  background-color: #d4e9ff;
   background-repeat: no-repeat;
   background-position: right center;
-  background-size: cover;
+  background-size: 100% 100%;
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(90, 140, 200, 0.12);
 }
@@ -305,14 +306,14 @@ onMounted(async () => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 28px;
-  padding: 0 18px;
+  height: 30px;
+  padding: 0 20px;
   color: #fff;
   font-size: 13px;
   font-weight: 500;
-  line-height: 28px;
+  line-height: 30px;
   background: #3d8bff;
-  border-radius: 14px;
+  border-radius: 999px;
 }
 
 .section-head {
