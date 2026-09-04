@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Copy curated assets from the gitignored .resources iOS payload into the web app."""
+"""Copy curated assets from the gitignored .resources iOS payload into the web app.
+
+Also dumps every original media file into public/seed/library/origin for later use.
+"""
 
 from __future__ import annotations
 
@@ -14,6 +17,8 @@ SRC = ROOT / ".resources/Payload/itis.app"
 IMG = SRC / "www/static/images"
 SEED = ROOT / "public/seed"
 LIB = SEED / "library"
+ORIGIN = LIB / "origin"
+MEDIA_EXT = {".png", ".svg", ".jpg", ".jpeg", ".gif", ".webp", ".woff", ".ttf", ".eot", ".wav"}
 
 
 def chunk(tag: bytes, data: bytes) -> bytes:
@@ -233,9 +238,37 @@ def sips_resize(src: Path, dest: Path, width: int, height: int) -> None:
     )
 
 
+def copy_origin_archive() -> None:
+    """Dump every original media file into one tracked directory for later use."""
+    if ORIGIN.exists():
+        shutil.rmtree(ORIGIN)
+    ORIGIN.mkdir(parents=True)
+    sources = []
+    sources.extend(path for path in IMG.iterdir() if path.is_file())
+    fonts = SRC / "www/static/fonts"
+    if fonts.exists():
+        sources.extend(path for path in fonts.iterdir() if path.is_file())
+    sources.extend(
+        path for path in SRC.iterdir() if path.is_file() and path.suffix.lower() in MEDIA_EXT
+    )
+    keyboard = SRC / "www/static/safekeyboard"
+    if keyboard.exists():
+        sources.extend(path for path in keyboard.iterdir() if path.is_file())
+    used: set[str] = set()
+    for src in sources:
+        if src.suffix.lower() not in MEDIA_EXT:
+            continue
+        name = src.name
+        if name in used:
+            name = f"{src.parent.name}-{src.name}"
+        used.add(name)
+        copy_file(src, ORIGIN / name)
+
+
 def main() -> None:
     SEED.mkdir(parents=True, exist_ok=True)
     LIB.mkdir(parents=True, exist_ok=True)
+    copy_origin_archive()
 
     copies = {
         "banner1@3x.406737e.png": SEED / "banner-1.png",
@@ -369,6 +402,7 @@ def main() -> None:
     for p in sorted(SEED.glob("*")):
         if p.is_file():
             print(" ", p.name, p.stat().st_size)
+    print("origin archive files:", len(list(ORIGIN.iterdir())))
 
 
 if __name__ == "__main__":

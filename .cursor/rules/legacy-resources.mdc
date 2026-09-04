@@ -1,0 +1,11 @@
+---
+description: 个税 App 原始资源目录，以及把资源改动合入 master
+alwaysApply: true
+---
+
+# 原始资源与合入 master
+
+- 完整原始媒体在 `public/seed/library/origin/`（从 `.resources` 导入的全部 png/svg/jpg/gif/字体/启动图/键盘图）。页面还没用到的图，先从这里找，不要再依赖 gitignored 的 `.resources`。
+- 已经接到页面/种子的图在 `public/seed/*.png` 和 `src/assets/`。`public/seed/library/` 里其余子目录是按用途整理过的备用图。
+- 从 origin 选用或替换资源后：提交、推送，并合并到 `master`。不要把资源只留在功能分支上。
+- 不要提交 `.resources` 整包（iOS 二进制仍 gitignore）。需要补全 origin 时跑 `python3 scripts/import-legacy-resources.py`。

@@ -88,4 +88,13 @@ describe('种子资源文件', () => {
       assert.equal(existsSync(join(root, 'public', url)), true, url);
     }
   });
+
+  it('完整原始媒体在 public/seed/library/origin', () => {
+    const origin = join(root, 'public/seed/library/origin');
+    assert.equal(existsSync(origin), true);
+    const files = readdirSync(origin).filter((name) => !name.startsWith('.'));
+    assert.ok(files.length >= 300, `origin file count ${files.length}`);
+    assert.equal(existsSync(join(origin, 'banner1@3x.406737e.png')), true);
+    assert.equal(existsSync(join(origin, 'LaunchImage-800-Portrait-736h@3x.png')), true);
+  });
 });
