@@ -18,8 +18,14 @@
   },
   "cloudflare": {
     "bindings": {
-      "API_UPSTREAM": {
-        "description": "后端 API 根地址。Worker 会把 `/api/*` 代理到该地址，避免浏览器 HTTPS 页面直连 HTTP 接口。"
+      "TAX_DATA": {
+        "description": "存放全部业务 JSON 的 R2 桶。Worker 每次请求都会重新读取 `data.json`。"
+      },
+      "ADMIN_KEY": {
+        "description": "管理后台密钥。访问 `/admin` 后填入，请求头为 `X-Admin-Key`。请在 Workers Secrets 中配置，不要写进代码。"
+      },
+      "TOKEN_SECRET": {
+        "description": "签发用户登录 token 的 HMAC 密钥。未配置时回退使用 `ADMIN_KEY`。"
       }
     }
   },

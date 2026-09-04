@@ -7,12 +7,15 @@
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": ["/api/*", "/admin"]
   },
   "observability": {
     "enabled": true
   },
-  "vars": {
-    "API_UPSTREAM": "http://api.ump45.top:19011"
-  }
+  "r2_buckets": [
+    {
+      "binding": "TAX_DATA",
+      "bucket_name": "tax-app-data"
+    }
+  ]
 }
