@@ -1,6 +1,6 @@
 ## Vue 3 + Vite + Pinia + Cloudflare Workers
 
-前端仍走原来的 `/jeecg-boot/...` 接口路径；后端已改为 Cloudflare Worker 本地实现，业务数据存在 R2，**不再依赖** `http://api.ump45.top:19011`。
+前端仍走原来的 `/jeecg-boot/...` 接口路径；后端由 Cloudflare Worker 实现，业务数据存在 R2。
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/dupu222/tax-app)
 
