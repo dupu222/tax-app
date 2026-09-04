@@ -11,7 +11,7 @@
     </div>
 
     <div class="ticker" @click="openPage('通知公告')">
-      <van-icon name="volume-o" class="ticker-icon" />
+      <img class="ticker-bell" src="/seed/icon-bell.png" alt="" />
       <div class="ticker-mask">
         <div class="ticker-track">
           <span>{{ NOTICE_TEXT }}</span>
@@ -228,10 +228,11 @@ onMounted(async () => {
   background: #fff6dd;
   border-radius: 16px;
 
-  .ticker-icon {
+  .ticker-bell {
+    width: 16px;
+    height: 16px;
     margin-right: 8px;
-    color: #f59e0b;
-    font-size: 16px;
+    object-fit: contain;
   }
 }
 
@@ -291,8 +292,8 @@ onMounted(async () => {
 }
 
 .hero-art {
-  width: 132px;
-  height: 108px;
+  width: 140px;
+  height: 116px;
   object-fit: contain;
 }
 
@@ -404,7 +405,7 @@ onMounted(async () => {
 
 .quick-card {
   display: flex;
-  flex: 0 0 132px;
+  flex: 0 0 110px;
   flex-direction: column;
   min-height: 168px;
   padding: 14px 12px 12px;
@@ -544,7 +545,9 @@ onMounted(async () => {
     width: 86px;
     height: 64px;
     margin-left: 10px;
-    object-fit: contain;
+    object-fit: cover;
+    background: #eef6ff;
+    border-radius: 10px;
   }
 }
 

@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="160" height="120" viewBox="0 0 160 120" fill="none">
+  <rect width="160" height="120" rx="16" fill="#EEF6FF"/>
   <circle cx="58" cy="46" r="16" fill="#93C5FD"/>
   <circle cx="90" cy="42" r="18" fill="#FDE68A"/>
   <rect x="42" y="62" width="64" height="28" rx="14" fill="#3B82F6"/>
   <circle cx="124" cy="70" r="16" fill="#FBBF24"/>
-  <text x="124" y="76" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E" font-family="PingFang SC, sans-serif">¥</text>
   <circle cx="28" cy="78" r="10" fill="#F59E0B"/>
   <ellipse cx="80" cy="102" rx="42" ry="7" fill="#BFDBFE"/>
 </svg>

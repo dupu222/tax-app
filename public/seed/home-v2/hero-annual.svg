@@ -1,34 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="220" height="180" viewBox="0 0 220 180" fill="none">
-  <defs>
-    <linearGradient id="heroSky" x1="0" y1="0" x2="220" y2="180" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#D9ECFF"/>
-      <stop offset="1" stop-color="#F7FBFF"/>
-    </linearGradient>
-    <linearGradient id="phoneGrad" x1="90" y1="20" x2="180" y2="160" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#4EA2FF"/>
-      <stop offset="1" stop-color="#1D6FEA"/>
-    </linearGradient>
-  </defs>
-  <rect width="220" height="180" rx="16" fill="url(#heroSky)"/>
-  <circle cx="42" cy="48" r="18" fill="#FFE08A"/>
-  <circle cx="42" cy="48" r="12" fill="#FFD45C"/>
-  <rect x="108" y="18" width="78" height="128" rx="14" fill="url(#phoneGrad)"/>
-  <rect x="116" y="30" width="62" height="104" rx="8" fill="#F4F8FF"/>
-  <rect x="124" y="40" width="46" height="10" rx="5" fill="#3D8BFF"/>
-  <rect x="124" y="58" width="36" height="7" rx="3.5" fill="#C9DBF8"/>
-  <rect x="124" y="72" width="46" height="7" rx="3.5" fill="#E3EDFB"/>
-  <rect x="124" y="86" width="28" height="7" rx="3.5" fill="#C9DBF8"/>
-  <rect x="124" y="108" width="46" height="16" rx="8" fill="#3D8BFF"/>
-  <rect x="28" y="92" width="62" height="48" rx="10" fill="#2F7CFF"/>
-  <rect x="36" y="100" width="46" height="10" rx="3" fill="#D7E8FF"/>
-  <rect x="36" y="116" width="12" height="12" rx="3" fill="#fff"/>
-  <rect x="52" y="116" width="12" height="12" rx="3" fill="#9EC5FF"/>
-  <rect x="68" y="116" width="12" height="12" rx="3" fill="#fff"/>
-  <circle cx="86" cy="86" r="14" fill="#FFD45C"/>
-  <text x="86" y="91" text-anchor="middle" font-size="12" font-weight="700" fill="#8A5A00" font-family="PingFang SC, sans-serif">¥</text>
-  <circle cx="58" cy="78" r="8" fill="#FFC84A"/>
-  <ellipse cx="70" cy="158" rx="36" ry="8" fill="#B9D4F5" opacity=".55"/>
-  <circle cx="54" cy="148" r="12" fill="#FFE1C4"/>
-  <rect x="46" y="158" width="16" height="10" rx="4" fill="#3D8BFF"/>
-  <path d="M78 154c8-10 18-8 24-2" stroke="#3D8BFF" stroke-width="3" stroke-linecap="round"/>
+  <rect x="118" y="16" width="78" height="128" rx="14" fill="#1D6FEA"/>
+  <rect x="126" y="28" width="62" height="104" rx="8" fill="#F4F8FF"/>
+  <rect x="134" y="40" width="46" height="10" rx="5" fill="#3D8BFF"/>
+  <rect x="134" y="58" width="36" height="7" rx="3.5" fill="#93C5FD"/>
+  <rect x="134" y="72" width="46" height="7" rx="3.5" fill="#BFDBFE"/>
+  <rect x="134" y="108" width="46" height="16" rx="8" fill="#2563EB"/>
+  <rect x="24" y="86" width="64" height="50" rx="10" fill="#2563EB"/>
+  <rect x="32" y="96" width="48" height="10" rx="3" fill="#DBEAFE"/>
+  <rect x="32" y="112" width="14" height="14" rx="3" fill="#fff"/>
+  <rect x="50" y="112" width="14" height="14" rx="3" fill="#93C5FD"/>
+  <rect x="68" y="112" width="14" height="14" rx="3" fill="#fff"/>
+  <circle cx="92" cy="78" r="16" fill="#FBBF24"/>
+  <circle cx="58" cy="70" r="10" fill="#F59E0B"/>
+  <circle cx="48" cy="142" r="12" fill="#FECACA"/>
+  <rect x="40" y="152" width="16" height="12" rx="4" fill="#2563EB"/>
+  <path d="M72 148c10-12 22-10 30-2" stroke="#2563EB" stroke-width="4" stroke-linecap="round"/>
 </svg>
