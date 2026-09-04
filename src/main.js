@@ -8,4 +8,4 @@ import vant from './utils/vant';
 import './utils/rem';
 import './utils/plusready';
 
-createApp(App).use(router).use(store).use(vant).mount('#app');
+createApp(App).use(store).use(router).use(vant).mount('#app');

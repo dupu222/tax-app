@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>税务数据管理后台</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f6fb;
+        --card: #ffffff;
+        --line: #e5e7eb;
+        --text: #111827;
+        --muted: #6b7280;
+        --brand: #2563eb;
+        --danger: #dc2626;
+        --ok: #059669;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; font-family: "PingFang SC", "Noto Sans SC", sans-serif; background: var(--bg); color: var(--text); }
+      button, input, textarea, select { font: inherit; }
+      .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 16px 48px; }
+      h1 { margin: 0 0 8px; font-size: 24px; }
+      p.lead { margin: 0 0 24px; color: var(--muted); }
+      .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+      .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+      label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+      input[type="password"], input[type="text"], select, textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: #fff;
+      }
+      textarea { min-height: 420px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.5; }
+      .btn { border: 0; border-radius: 8px; padding: 10px 14px; background: var(--brand); color: #fff; cursor: pointer; }
+      .btn.secondary { background: #111827; }
+      .btn.ghost { background: #e5e7eb; color: #111827; }
+      .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .status { min-height: 22px; font-size: 14px; margin-top: 12px; }
+      .status.ok { color: var(--ok); }
+      .status.err { color: var(--danger); }
+      .layout { display: grid; grid-template-columns: 220px 1fr; gap: 16px; }
+      .nav button { width: 100%; text-align: left; margin-bottom: 8px; }
+      .nav button.active { background: var(--brand); color: #fff; }
+      .toolbar { justify-content: space-between; margin-bottom: 12px; }
+      @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>税务数据管理后台</h1>
+      <p class="lead">数据保存在 Cloudflare R2（绑定名 <code>TAX_DATA</code>）。每次接口请求都会重新读取。请使用 Worker 密钥 <code>ADMIN_KEY</code> 登录。</p>
+
+      <section id="login" class="card">
+        <label for="adminKey">ADMIN_KEY</label>
+        <div class="row">
+          <input id="adminKey" type="password" placeholder="部署时配置的管理密钥" />
+          <button class="btn" id="loginBtn" type="button">进入后台</button>
+        </div>
+        <div class="status" id="loginStatus"></div>
+      </section>
+
+      <section id="workspace" class="layout" hidden>
+        <aside class="card nav" id="nav"></aside>
+        <main class="card">
+          <div class="row toolbar">
+            <div>
+              <strong id="title">集合</strong>
+              <div class="lead" id="hint" style="margin: 4px 0 0"></div>
+            </div>
+            <div class="row">
+              <button class="btn ghost" id="reloadBtn" type="button">重新读取</button>
+              <button class="btn secondary" id="saveBtn" type="button">保存到 R2</button>
+              <button class="btn ghost" id="logoutBtn" type="button">退出</button>
+            </div>
+          </div>
+          <textarea id="editor" spellcheck="false"></textarea>
+          <div class="status" id="saveStatus"></div>
+        </main>
+      </section>
+    </div>
+    <script>
+      const COLLECTIONS = [
+        { key: 'users', title: '用户', hint: '可写 password 字段，保存时会自动哈希为 passwordHash。' },
+        { key: 'swipers', title: '首页轮播', hint: '字段：id, picture。' },
+        { key: 'icons', title: '图标分组', hint: 'type=1 首页分类，type=4 我的页。' },
+        { key: 'businesses', title: '常用业务', hint: '字段：id, title, description。' },
+        { key: 'hotIssues', title: '热点问题', hint: '字段：id, title。' },
+        { key: 'images', title: '专题图', hint: '按 code 查询，例如 A005。' },
+        { key: 'areas', title: '行政区划', hint: '级联结构：code / name / indexCode / children。' },
+        { key: 'dicts', title: '字典', hint: 'nation、education 等，值为 {text,value} 数组。' },
+        { key: 'companies', title: '任职受雇', hint: '用 userId 关联用户。' },
+        { key: 'taxableYears', title: '纳税年度', hint: '字符串数组，例如 ["2022","2023"]。' },
+        { key: 'categories', title: '所得类型', hint: '按分类 code 存储，如 A02。' },
+        { key: 'taxableIncomes', title: '纳税明细', hint: '列表与详情共用，按 annual / incomeTypeValue 过滤。' },
+      ];
+
+      const loginEl = document.getElementById('login');
+      const workspaceEl = document.getElementById('workspace');
+      const navEl = document.getElementById('nav');
+      const editorEl = document.getElementById('editor');
+      const titleEl = document.getElementById('title');
+      const hintEl = document.getElementById('hint');
+      const loginStatus = document.getElementById('loginStatus');
+      const saveStatus = document.getElementById('saveStatus');
+      let current = COLLECTIONS[0].key;
+
+      function key() {
+        return sessionStorage.getItem('ADMIN_KEY') || '';
+      }
+
+      function setStatus(el, type, text) {
+        el.className = `status ${type}`;
+        el.textContent = text;
+      }
+
+      async function adminFetch(path, init = {}) {
+        const headers = new Headers(init.headers || {});
+        headers.set('X-Admin-Key', key());
+        if (init.body && !headers.has('content-type')) {
+          headers.set('content-type', 'application/json');
+        }
+        const response = await fetch(path, { ...init, headers });
+        const body = await response.json();
+        if (!response.ok || body.code >= 400) {
+          throw new Error(body.message || `请求失败 ${response.status}`);
+        }
+        return body.result;
+      }
+
+      function renderNav() {
+        navEl.innerHTML = '';
+        COLLECTIONS.forEach((item) => {
+          const button = document.createElement('button');
+          button.className = `btn ghost${item.key === current ? ' active' : ''}`;
+          button.textContent = item.title;
+          button.addEventListener('click', () => {
+            current = item.key;
+            renderNav();
+            loadCollection();
+          });
+          navEl.appendChild(button);
+        });
+      }
+
+      async function loadCollection() {
+        const meta = COLLECTIONS.find((item) => item.key === current);
+        titleEl.textContent = meta.title;
+        hintEl.textContent = meta.hint;
+        const data = await adminFetch(`/api/admin/collections/${current}`);
+        editorEl.value = JSON.stringify(data, null, 2);
+        setStatus(saveStatus, 'ok', '已从 R2 读取最新数据');
+      }
+
+      document.getElementById('loginBtn').addEventListener('click', async () => {
+        sessionStorage.setItem('ADMIN_KEY', document.getElementById('adminKey').value.trim());
+        try {
+          await adminFetch('/api/admin/ping');
+          loginEl.hidden = true;
+          workspaceEl.hidden = false;
+          renderNav();
+          await loadCollection();
+        } catch (error) {
+          setStatus(loginStatus, 'err', error.message);
+        }
+      });
+
+      document.getElementById('reloadBtn').addEventListener('click', () => {
+        loadCollection().catch((error) => setStatus(saveStatus, 'err', error.message));
+      });
+
+      document.getElementById('saveBtn').addEventListener('click', async () => {
+        try {
+          const parsed = JSON.parse(editorEl.value);
+          await adminFetch(`/api/admin/collections/${current}`, {
+            method: 'PUT',
+            body: JSON.stringify(parsed),
+          });
+          await loadCollection();
+          setStatus(saveStatus, 'ok', '已写入 R2');
+        } catch (error) {
+          setStatus(saveStatus, 'err', error.message);
+        }
+      });
+
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        sessionStorage.removeItem('ADMIN_KEY');
+        workspaceEl.hidden = true;
+        loginEl.hidden = false;
+      });
+
+      if (key()) {
+        document.getElementById('loginBtn').click();
+      }
+    </script>
+  </body>
+</html>
