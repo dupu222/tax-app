@@ -2,7 +2,7 @@
   <NavbarPage label="家庭成员信息">
     <div class="tax-preference">
       <div class="empty fcc-c">
-        <img src="@/assets/my/shenfen.png" alt="" />
+        <img src="@/assets/my/family-empty.svg" alt="" />
         <div class="text-gray">
           1.可以添加父母、配偶、子女等家庭成员的信息。<br />2.添加家庭成员信息后，在办理专项附加扣除业务
           时将会更加便捷。
@@ -27,8 +27,9 @@
     left: 50%;
     transform: translate(-50%, -100%);
     img {
-      width: 110px;
-      height: 80px;
+      width: 140px;
+      height: 92px;
+      object-fit: contain;
     }
     .text {
       margin-top: 10px;

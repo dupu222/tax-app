@@ -97,6 +97,7 @@ const goPage = (item, val) => {
         margin-bottom: 6px;
         width: 48px;
         height: 48px;
+        object-fit: contain;
       }
       .sort-text {
         width: 77px;

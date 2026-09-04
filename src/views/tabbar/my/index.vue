@@ -156,7 +156,7 @@ const onInfoCard = (item) => {
       .left-icon {
         width: 24px;
         height: 24px;
-        object-fit: cover;
+        object-fit: contain;
       }
       .left-text {
         line-height: 23px;

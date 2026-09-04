@@ -1,18 +1,18 @@
 import { hashPassword } from './auth.js';
 
 const HOME_ICONS = [
-  { title: '我要办税', icon: '/seed/icon-tax.svg', sortOrder: '1' },
-  { title: '我要查询', icon: '/seed/icon-search.svg', sortOrder: '2' },
-  { title: '公众服务', icon: '/seed/icon-public.svg', sortOrder: '3' },
+  { title: '我要办税', icon: '/seed/icon-tax.png', sortOrder: '1' },
+  { title: '我要查询', icon: '/seed/icon-search.png', sortOrder: '2' },
+  { title: '公众服务', icon: '/seed/icon-public.png', sortOrder: '3' },
 ];
 
 const MY_ICONS = [
-  { title: '个人信息', icon: '/seed/icon-user.svg', sortOrder: '1' },
-  { title: '任职受雇信息', icon: '/seed/icon-company.svg', sortOrder: '2' },
-  { title: '家庭成员信息', icon: '/seed/icon-family.svg', sortOrder: '3' },
-  { title: '银行卡', icon: '/seed/icon-card.svg', sortOrder: '4' },
-  { title: '办税授权', icon: '/seed/icon-auth.svg', sortOrder: '5' },
-  { title: '消息订阅', icon: '/seed/icon-message.svg', sortOrder: '10' },
+  { title: '个人信息', icon: '/seed/icon-user.png', sortOrder: '1' },
+  { title: '任职受雇信息', icon: '/seed/icon-company.png', sortOrder: '2' },
+  { title: '家庭成员信息', icon: '/seed/icon-family.png', sortOrder: '3' },
+  { title: '银行卡', icon: '/seed/icon-card.png', sortOrder: '4' },
+  { title: '办税授权', icon: '/seed/icon-auth.png', sortOrder: '5' },
+  { title: '消息订阅', icon: '/seed/icon-bell.png', sortOrder: '10' },
 ];
 
 const TAX_ICONS = [
@@ -20,16 +20,16 @@ const TAX_ICONS = [
     type: 2,
     modeClassify: '证明开具',
     list: [
-      { title: '纳税记录开具', icon: '/seed/icon-tax.svg', sortOrder: '1' },
-      { title: '完税证明开具', icon: '/seed/icon-auth.svg', sortOrder: '2' },
+      { title: '纳税记录开具', icon: '/seed/icon-nsjl.png', sortOrder: '1' },
+      { title: '完税证明开具', icon: '/seed/icon-wszm.png', sortOrder: '2' },
     ],
   },
   {
     type: 2,
     modeClassify: '税费申报',
     list: [
-      { title: '综合所得年度汇算', icon: '/seed/icon-search.svg', sortOrder: '1' },
-      { title: '专项附加扣除填报', icon: '/seed/icon-family.svg', sortOrder: '2' },
+      { title: '综合所得年度汇算', icon: '/seed/icon-ndhs.png', sortOrder: '1' },
+      { title: '专项附加扣除填报', icon: '/seed/icon-zxfj.png', sortOrder: '2' },
     ],
   },
 ];
@@ -39,23 +39,23 @@ const SERVICE_ICONS = [
     type: 3,
     modeClassify: '申报信息查询',
     list: [
-      { title: '申报查询', icon: '/seed/icon-search.svg', sortOrder: '1' },
-      { title: '专项附加扣除信息查询', icon: '/seed/icon-family.svg', sortOrder: '2' },
-      { title: '收入纳税明细查询', icon: '/seed/icon-company.svg', sortOrder: '3' },
+      { title: '申报查询', icon: '/seed/icon-sbcx.png', sortOrder: '1' },
+      { title: '专项附加扣除信息查询', icon: '/seed/icon-family-grid.png', sortOrder: '2' },
+      { title: '收入纳税明细查询', icon: '/seed/icon-srns.png', sortOrder: '3' },
     ],
   },
   {
     type: 3,
     modeClassify: '备案信息查询',
     list: [
-      { title: '税收优惠备案查询', icon: '/seed/icon-auth.svg', sortOrder: '1' },
+      { title: '税收优惠备案查询', icon: '/seed/icon-ssyh.png', sortOrder: '1' },
     ],
   },
   {
     type: 3,
     modeClassify: '其他查询',
     list: [
-      { title: '纳税记录申请查询', icon: '/seed/icon-card.svg', sortOrder: '1' },
+      { title: '纳税记录申请查询', icon: '/seed/icon-nsjl.png', sortOrder: '1' },
     ],
   },
 ];
@@ -70,7 +70,7 @@ export async function createDefaultStore() {
         passwordHash,
         realname: '张三',
         phone: '19673239497',
-        avatar: '',
+        avatar: '/seed/avatar-demo.png',
         idCard: '110101199001011234',
         birthday: '1990-01-01',
         sex: 1,
@@ -89,22 +89,43 @@ export async function createDefaultStore() {
       },
     ],
     swipers: [
-      { id: 'swipe-1', picture: '/seed/banner-1.svg' },
-      { id: 'swipe-2', picture: '/seed/banner-2.svg' },
+      { id: 'swipe-1', picture: '/seed/banner-1.png' },
+      { id: 'swipe-2', picture: '/seed/banner-2.png' },
+      { id: 'swipe-3', picture: '/seed/banner-3.png' },
     ],
     icons: [{ type: 1, list: HOME_ICONS }, ...TAX_ICONS, ...SERVICE_ICONS, { type: 4, list: MY_ICONS }],
     businesses: [
-      { id: 'biz-1', title: '综合所得年度汇算', description: '办理上一年度综合所得汇算清缴' },
-      { id: 'biz-2', title: '专项附加扣除填报', description: '填报子女教育、住房租金等扣除' },
-      { id: 'biz-3', title: '收入纳税明细查询', description: '查询工资薪金等纳税明细' },
-      { id: 'biz-4', title: '纳税记录开具', description: '开具个人所得税纳税记录' },
+      {
+        id: 'biz-1',
+        title: '综合所得年度汇算',
+        description: '办理上一年度综合所得汇算清缴',
+        icon: '/seed/icon-ndhs.png',
+      },
+      {
+        id: 'biz-2',
+        title: '专项附加扣除填报',
+        description: '填报子女教育、住房租金等扣除',
+        icon: '/seed/icon-zxfj.png',
+      },
+      {
+        id: 'biz-3',
+        title: '收入纳税明细查询',
+        description: '查询工资薪金等纳税明细',
+        icon: '/seed/icon-srns.png',
+      },
+      {
+        id: 'biz-4',
+        title: '纳税记录开具',
+        description: '开具个人所得税纳税记录',
+        icon: '/seed/icon-nsjl.png',
+      },
     ],
     hotIssues: [
       { id: 'hot-1', title: '年度汇算什么时候开始办理？' },
       { id: 'hot-2', title: '专项附加扣除如何修改？' },
       { id: 'hot-3', title: '收入纳税明细里的扣缴义务人是什么？' },
     ],
-    images: [{ code: 'A005', image: '/seed/topic.svg', title: '年度汇算专题' }],
+    images: [{ code: 'A005', image: '/seed/topic.png', title: '年度汇算专题' }],
     areas: [
       {
         code: '110000',

@@ -9,20 +9,29 @@
         </div>
         <div class="search-box">
           <div class="search-title" @click="goPage(1)">
-            <div class="title-text">申报查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-sbcx.png" alt="" />
+              <div class="title-text">申报查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">已填报的各项报表的查询</div>
           <div class="sort-line"></div>
           <div class="search-title" @click.stop="goPageBlank">
-            <div class="title-text">专项附加扣除信息查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-family-grid.png" alt="" />
+              <div class="title-text">专项附加扣除信息查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">已填报的各项专项附加扣除记录的查询</div>
           <div class="sort-line"></div>
           <div class="search-title" @click="goPage(2)">
-            <div class="title-text">收入纳税明细查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-srns.png" alt="" />
+              <div class="title-text">收入纳税明细查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">已申报收入的查询及异议申诉</div>
         </div>
@@ -35,20 +44,29 @@
         </div>
         <div class="search-box">
           <div class="search-title" @click.stop="goPageBlank">
-            <div class="title-text">天使投资个人所得税抵扣备案查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-tstz.png" alt="" />
+              <div class="title-text">天使投资个人所得税抵扣备案查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">已备案的创投企业和天使投资个人符合规定投资行为查询</div>
           <div class="sort-line"></div>
           <div class="search-title" @click.stop="goPageBlank">
-            <div class="title-text">非货币性资产投资分期缴纳备案查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-fhb.png" alt="" />
+              <div class="title-text">非货币性资产投资分期缴纳备案查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">已备案的非货币性资产投资分期缴纳查询</div>
           <div class="sort-line"></div>
           <div class="search-title" @click.stop="goPageBlank">
-            <div class="title-text">税收优惠备案查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-ssyh.png" alt="" />
+              <div class="title-text">税收优惠备案查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">已备案的其他税收优惠事项查询</div>
         </div>
@@ -61,26 +79,38 @@
         </div>
         <div class="search-box">
           <div class="search-title" @click.stop="goPageBlank">
-            <div class="title-text">异议处理查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-yycl.png" alt="" />
+              <div class="title-text">异议处理查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">已发起申诉事项的进度查询</div>
           <div class="sort-line"></div>
           <div class="search-title" @click.stop="goPageBlank">
-            <div class="title-text">税务文书查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-swws.png" alt="" />
+              <div class="title-text">税务文书查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">税务机关送达的税务文书查询</div>
           <div class="sort-line"></div>
           <div class="search-title" @click.stop="goPageBlank">
-            <div class="title-text">税务机关送达的税务文书查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-swws.png" alt="" />
+              <div class="title-text">税务机关送达的税务文书查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">税务机关送达的税务文书查询</div>
           <div class="sort-line"></div>
           <div class="search-title" @click.stop="goPageBlank">
-            <div class="title-text">纳税记录申请查询</div>
-            <img src="../../../assets/home/search-jiantour.png" alt="" />
+            <div class="title-left">
+              <img class="entry-icon" src="/seed/icon-nsjl.png" alt="" />
+              <div class="title-text">纳税记录申请查询</div>
+            </div>
+            <img class="arrow" src="../../../assets/home/search-jiantour.png" alt="" />
           </div>
           <div class="search-content">已申请开具的纳税记录查询</div>
         </div>
@@ -144,15 +174,28 @@ const goPageBlank = () => {
     justify-content: space-between;
     align-items: center;
     line-height: 30px;
+    .title-left {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+    }
+    .entry-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
     .title-text {
       font-size: 16px;
       font-weight: normal;
       letter-spacing: 0.02em;
       color: #3d3d3d;
     }
-    img {
+    .arrow {
       width: 10px;
       height: 10px;
+      flex-shrink: 0;
     }
   }
   .search-content {
