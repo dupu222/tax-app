@@ -1,18 +1,14 @@
-import { isApiPath, proxyApiRequest, resolveUpstream } from './proxy.js';
+import { handleApiRequest } from './app.js';
 
 export default {
   async fetch(request, env) {
-    const { pathname } = new URL(request.url);
-
-    if (!isApiPath(pathname)) {
-      return new Response('Not Found', { status: 404 });
+    const url = new URL(request.url);
+    if (url.pathname === '/api' || url.pathname.startsWith('/api/')) {
+      return handleApiRequest(request, env);
     }
-
-    try {
-      return await proxyApiRequest(request, resolveUpstream(env));
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Upstream request failed';
-      return Response.json({ code: 502, message }, { status: 502 });
+    if (url.pathname === '/admin' && env.ASSETS) {
+      return Response.redirect(new URL('/admin/', url), 301);
     }
+    return new Response('Not Found', { status: 404 });
   },
 };

@@ -3,11 +3,13 @@ import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from 'unplugin-vue-components/resolvers';
+import { createLocalTaxApiPlugin } from './worker/vite-middleware.js';
 
 export default defineConfig({
   base: './',
   plugins: [
     vue(),
+    createLocalTaxApiPlugin(),
     // vant配置
     Components({
       resolvers: [VantResolver()],
@@ -30,19 +32,6 @@ export default defineConfig({
     // open: true,
     // 允许跨域
     cors: true,
-    // 自定义代理规则
-    proxy: {
-      '/proxy_api': {
-        target: 'http://api.ump45.top:19011', // 代理接口
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/proxy_api/, ''),
-      },
-      '/api': {
-        target: 'http://api.ump45.top:19011',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
   },
   css: {
     // css预处理器
