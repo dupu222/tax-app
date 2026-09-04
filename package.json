@@ -13,8 +13,10 @@
     "build:prd": "vite build --mode prd",
     "preview": "vite preview",
     "preview:cf": "wrangler dev",
+    "deploy": "wrangler deploy",
     "cf:deploy": "wrangler deploy",
-    "test": "node --test worker/*.test.js"
+    "cf:setup": "bash scripts/cf-deploy.sh",
+    "test": "node --test worker/*.test.js scripts/*.test.js"
   },
   "cloudflare": {
     "bindings": {
