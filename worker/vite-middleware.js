@@ -34,39 +34,42 @@ export function createLocalTaxApiPlugin(options = {}) {
     TOKEN_SECRET: options.tokenSecret || process.env.TOKEN_SECRET || 'dev-token-secret',
   };
 
+  function attach(server) {
+    server.middlewares.use((req, _res, next) => {
+      if (req.url === '/admin' || req.url === '/admin/') {
+        req.url = '/admin/index.html';
+      }
+      next();
+    });
+    server.middlewares.use(async (req, res, next) => {
+      if (!req.url || !(req.url === '/api' || req.url.startsWith('/api/'))) {
+        next();
+        return;
+      }
+      try {
+        const body = await readBody(req);
+        const request = new Request(`http://127.0.0.1${req.url}`, {
+          method: req.method,
+          headers: nodeHeaders(req.headers),
+          body,
+          duplex: body ? 'half' : undefined,
+        });
+        const response = await handleApiRequest(request, env);
+        res.statusCode = response.status;
+        response.headers.forEach((value, key) => {
+          res.setHeader(key, value);
+        });
+        const buffer = Buffer.from(await response.arrayBuffer());
+        res.end(buffer);
+      } catch (error) {
+        next(error);
+      }
+    });
+  }
+
   return {
     name: 'local-tax-api',
-    configureServer(server) {
-      server.middlewares.use((req, _res, next) => {
-        if (req.url === '/admin' || req.url === '/admin/') {
-          req.url = '/admin/index.html';
-        }
-        next();
-      });
-      server.middlewares.use(async (req, res, next) => {
-        if (!req.url || !(req.url === '/api' || req.url.startsWith('/api/'))) {
-          next();
-          return;
-        }
-        try {
-          const body = await readBody(req);
-          const request = new Request(`http://127.0.0.1${req.url}`, {
-            method: req.method,
-            headers: nodeHeaders(req.headers),
-            body,
-            duplex: body ? 'half' : undefined,
-          });
-          const response = await handleApiRequest(request, env);
-          res.statusCode = response.status;
-          response.headers.forEach((value, key) => {
-            res.setHeader(key, value);
-          });
-          const buffer = Buffer.from(await response.arrayBuffer());
-          res.end(buffer);
-        } catch (error) {
-          next(error);
-        }
-      });
-    },
+    configureServer: attach,
+    configurePreviewServer: attach,
   };
 }

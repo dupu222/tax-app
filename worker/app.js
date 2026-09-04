@@ -117,7 +117,7 @@ async function handleJeecg(request, env, path, url) {
   if (path === '/jeecg-boot/tax/taxIcon/appList' && request.method === 'GET') {
     const type = Number(url.searchParams.get('type'));
     const list = Number.isFinite(type) && type ? store.icons.filter((item) => Number(item.type) === type) : store.icons;
-    return jsonResponse(ok(list.length ? list : store.icons));
+    return jsonResponse(ok(list));
   }
 
   if (path === '/jeecg-boot/tax/taxArea/list' && request.method === 'GET') {

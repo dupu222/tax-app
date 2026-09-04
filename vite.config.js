@@ -6,7 +6,7 @@ import { VantResolver } from 'unplugin-vue-components/resolvers';
 import { createLocalTaxApiPlugin } from './worker/vite-middleware.js';
 
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [
     vue(),
     createLocalTaxApiPlugin(),
