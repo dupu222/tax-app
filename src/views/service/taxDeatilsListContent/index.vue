@@ -285,7 +285,7 @@ const onOpen = (val) => {
   transition: all 0.5s;
   overflow: hidden;
   &.special-list-open {
-    height: 173px;
+    height: 230px;
     margin-bottom: 12px;
   }
   .specila-item {
