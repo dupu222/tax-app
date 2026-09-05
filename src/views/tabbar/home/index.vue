@@ -60,23 +60,23 @@
           <img src="../../../assets/home/right-jiantou.png" alt="" />
         </div>
       </div>
-      <!-- 快捷菜单：横向滑动 -->
-      <div class="shortcut-scroll">
+      <!-- 业务分类 -->
+      <div>
         <div
           v-for="(item, index) in busniessList"
           :key="item.id"
-          class="shortcut-item"
-          :class="`shortcut-item--t${index % 4}`"
+          class="sort-business"
+          :class="`sort-business--bac${index}`"
           @click="toPage(item)"
         >
-          <div class="shortcut-item__icon">
-            <img v-if="item.icon" :src="item.icon" alt="" />
+          <div class="business-main">
+            <img v-if="item.icon" :src="item.icon" class="business-icon" alt="" />
+            <div class="text-box">
+              <div class="business-title">{{ item.title }}</div>
+              <div class="business-text">{{ item.description }}</div>
+            </div>
           </div>
-          <div class="shortcut-item__card">
-            <div class="shortcut-item__title">{{ item.title }}</div>
-            <div class="shortcut-item__desc">{{ item.description }}</div>
-            <span class="shortcut-item__action">{{ getButtonText(item.title) }}</span>
-          </div>
+          <img class="right-arrow" src="../../../assets/home/right-jiantou.png" alt="" />
         </div>
       </div>
       <!-- 热点问题 -->
@@ -192,23 +192,6 @@ const goPage = (item) => {
     name: routerName || '',
   });
 };
-// 获取按钮文本
-const getButtonText = (title) => {
-  switch (title) {
-    case '综合所得年度汇算':
-      return '去申报';
-    case '收入纳税明细':
-    case '收入纳税明细查询':
-      return '去查询';
-    case '纳税记录开具':
-      return '去开具';
-    case '更多功能':
-      return '去使用';
-    default:
-      return '去查看';
-  }
-};
-
 // 常用业务部分，跳转页面
 const toPage = (item) => {
   let toName = '';
@@ -220,7 +203,6 @@ const toPage = (item) => {
       toName = 'EmptyPage';
       break;
     case '收入纳税明细查询':
-    case '收入纳税明细':
       toName = 'TaxDeatilsSearch';
       break;
     case '纳税记录开具':
@@ -272,7 +254,6 @@ nextTick(() => {
   }
   // 下半部分盒子
   .xia {
-    overflow: visible;
     background-color: #fff;
   }
   // 搜索部分
@@ -453,7 +434,7 @@ nextTick(() => {
     justify-content: space-between;
     align-items: center;
     margin-top: 5px;
-    padding: 20px 14px 6px 18px;
+    padding: 20px 14px 20px 18px;
     .norml-business {
       display: flex;
       img {
@@ -482,148 +463,59 @@ nextTick(() => {
       }
     }
   }
-  // 快捷菜单：单行横滑，图标咬住左上角，右下角为贴边圆角块
-  // 尺寸必须写死 px，交给 pxtorem，不能放进 CSS 变量（变量里的 px 不会转 rem）
-  .shortcut-scroll {
+  // 业务分类
+  .sort-business {
     display: flex;
-    flex-wrap: nowrap;
-    gap: 14px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 10px 16px 24px 20px;
-    background: #e8eef6;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 18px;
+    margin-bottom: 15px;
+    padding: 12px;
+    width: 347px;
+    border-radius: 4px;
+    background: #ffffff;
+    &--bac0 {
+      box-shadow: 2px 0px 0px 0px #ed6e90 inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
     }
-  }
-
-  .shortcut-item {
-    --shortcut-pale: #e8f1ff;
-    --shortcut-accent: #3d82f5;
-    --shortcut-glow: rgba(61, 130, 245, 0.35);
-
-    position: relative;
-    flex: 0 0 146px;
-    width: 146px;
-    padding-top: 22px;
-    padding-left: 22px;
-    cursor: pointer;
-
-    &--t0 {
-      --shortcut-pale: #e8f1ff;
-      --shortcut-accent: #3d82f5;
-      --shortcut-glow: rgba(61, 130, 245, 0.35);
+    &--bac1 {
+      box-shadow: 2px 0px 0px 0px #82d7ae inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
     }
-    &--t1 {
-      --shortcut-pale: #f2ecff;
-      --shortcut-accent: #8a6fe3;
-      --shortcut-glow: rgba(138, 111, 227, 0.35);
+    &--bac2 {
+      box-shadow: 2px 0px 0px 0px #9b8edd inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
     }
-    &--t2 {
-      --shortcut-pale: #e4f7f1;
-      --shortcut-accent: #2db892;
-      --shortcut-glow: rgba(45, 184, 146, 0.35);
+    &--bac3 {
+      box-shadow: 2px 0px 0px 0px #edca92 inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
     }
-    &--t3 {
-      --shortcut-pale: #e8f1ff;
-      --shortcut-accent: #3d82f5;
-      --shortcut-glow: rgba(61, 130, 245, 0.35);
+    .business-main {
+      display: flex;
+      align-items: center;
+      min-width: 0;
     }
-
-    &__icon {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 2;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff;
-      box-shadow: 0 6px 14px var(--shortcut-glow);
-      img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
+    .business-icon {
+      width: 36px;
+      height: 36px;
+      margin-right: 10px;
+      object-fit: contain;
+      flex-shrink: 0;
     }
-
-    &__card {
-      position: relative;
-      box-sizing: border-box;
-      width: 124px;
-      min-height: 158px;
-      padding: 28px 10px 38px 12px;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 18px rgba(70, 100, 150, 0.1);
-      // 圆心对准卡片左上角；半径大于半个图标，浅底从缝里透出
-      -webkit-mask-image: radial-gradient(circle 0.74667rem at 0 0, transparent 0.73333rem, #000 0.74667rem);
-      mask-image: radial-gradient(circle 0.74667rem at 0 0, transparent 0.73333rem, #000 0.74667rem);
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-      -webkit-mask-size: 100% 100%;
-      mask-size: 100% 100%;
-    }
-
-    &__title {
-      display: -webkit-box;
-      margin-bottom: 6px;
-      overflow: hidden;
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 21px;
-      color: #1a1a1a;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
-
-    &__desc {
-      display: -webkit-box;
-      overflow: hidden;
-      font-size: 12px;
+    .business-title {
+      margin-bottom: 5px;
+      font-size: 14px;
       font-weight: normal;
-      line-height: 17px;
-      color: #8c8c8c;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      color: #3d3d3d;
+      line-height: 20px;
     }
-
-    // 贴住右下角的圆角矩形变体，不是胶囊
-    &__action {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      padding: 7px 14px 8px 18px;
-      font-size: 12px;
-      font-weight: 500;
+    .business-text {
+      font-size: 13px;
+      font-weight: normal;
+      color: #929191;
       line-height: 16px;
-      color: var(--shortcut-accent);
-      white-space: nowrap;
-      background: var(--shortcut-pale);
-      border-radius: 16px 0 16px 0;
-
-      &::before,
-      &::after {
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        pointer-events: none;
-        content: '';
-        background: radial-gradient(circle at 0 0, transparent 0.21333rem, var(--shortcut-pale) 0.22667rem);
-      }
-      &::before {
-        top: -8px;
-        right: 0;
-      }
-      &::after {
-        bottom: 0;
-        left: -8px;
-      }
+    }
+    .right-arrow {
+      width: 14px;
+      height: 14px;
+      margin-left: 15px;
+      flex-shrink: 0;
     }
   }
 
