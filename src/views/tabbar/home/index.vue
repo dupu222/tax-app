@@ -491,7 +491,7 @@ nextTick(() => {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 10px 16px 24px 20px;
-    background: linear-gradient(180deg, #eef4fb 0%, #ffffff 100%);
+    background: #e8eef6;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
@@ -561,9 +561,13 @@ nextTick(() => {
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 8px 18px rgba(70, 100, 150, 0.1);
-      // 圆心对准卡片左上角；用 rem 避免 gradient 内 px 不被 pxtorem 转换
-      -webkit-mask-image: radial-gradient(circle 0.69333rem at 0 0, transparent 0.68rem, #000 0.69333rem);
-      mask-image: radial-gradient(circle 0.69333rem at 0 0, transparent 0.68rem, #000 0.69333rem);
+      // 圆心对准卡片左上角；半径大于半个图标，浅底从缝里透出
+      -webkit-mask-image: radial-gradient(circle 0.74667rem at 0 0, transparent 0.73333rem, #000 0.74667rem);
+      mask-image: radial-gradient(circle 0.74667rem at 0 0, transparent 0.73333rem, #000 0.74667rem);
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
     }
 
     &__title {
@@ -594,7 +598,7 @@ nextTick(() => {
       position: absolute;
       right: 0;
       bottom: 0;
-      padding: 6px 12px 8px 16px;
+      padding: 7px 14px 8px 18px;
       font-size: 12px;
       font-weight: 500;
       line-height: 16px;
