@@ -13,7 +13,10 @@
         <van-tabbar-item v-for="item in tabbarList" :key="item.path" :name="item.path">
           <template #icon="props">
             <div class="tabbar-item">
-              <img :src="props.active ? item.imgactive : item.img" alt="" />
+              <div class="tabbar-icon">
+                <img :src="props.active ? item.imgactive : item.img" alt="" />
+                <span v-if="item.badge" class="tabbar-badge">{{ item.badge > 99 ? '99+' : item.badge }}</span>
+              </div>
               <div class="tabbar-item-text" :class="{ 'is-active': props.active }">{{ item.text }}</div>
             </div>
           </template>
@@ -26,16 +29,16 @@
 <script setup>
 import { onUpdated, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import homeImg from '@/assets/tabbar/home.png';
-import homeActiveImg from '@/assets/tabbar/home-active.png';
+import homeImg from '@/assets/tabbar/home.svg';
+import homeActiveImg from '@/assets/tabbar/home-active.svg';
 import todoImg from '@/assets/tabbar/todo.svg';
 import todoActiveImg from '@/assets/tabbar/todo-active.svg';
 import handleCheckImg from '@/assets/tabbar/handle-check.svg';
 import handleCheckActiveImg from '@/assets/tabbar/handle-check-active.svg';
 import messageImg from '@/assets/tabbar/message.svg';
 import messageActiveImg from '@/assets/tabbar/message-active.svg';
-import myImg from '@/assets/tabbar/my.png';
-import myActiveImg from '@/assets/tabbar/my-active.png';
+import myImg from '@/assets/tabbar/my.svg';
+import myActiveImg from '@/assets/tabbar/my-active.svg';
 
 const router = useRouter();
 
@@ -105,16 +108,16 @@ onUpdated(() => {
 
   .tabbar {
     position: absolute;
-    right: 12px;
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-    left: 12px;
+    right: 14px;
+    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    left: 14px;
     z-index: 40;
-    height: 56px;
+    height: 66px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.72);
-    border-radius: 28px;
-    box-shadow: 0 8px 24px rgba(20, 50, 90, 0.16);
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 33px;
+    box-shadow: 0 6px 24px rgba(20, 50, 90, 0.1);
     -webkit-backdrop-filter: saturate(180%) blur(22px);
     backdrop-filter: saturate(180%) blur(22px);
     isolation: isolate;
@@ -125,22 +128,47 @@ onUpdated(() => {
       align-items: center;
       justify-content: center;
 
+      .tabbar-icon {
+        position: relative;
+        width: 26px;
+        height: 26px;
+      }
+
       img {
-        width: 24px;
-        height: 24px;
+        display: block;
+        width: 26px;
+        height: 26px;
         object-fit: contain;
       }
 
+      .tabbar-badge {
+        position: absolute;
+        top: -7px;
+        right: -11px;
+        box-sizing: border-box;
+        min-width: 17px;
+        height: 17px;
+        padding: 0 4px;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 17px;
+        text-align: center;
+        background: #f04438;
+        border: 1.5px solid #fff;
+        border-radius: 9px;
+      }
+
       .tabbar-item-text {
-        margin-top: 3px;
-        color: #4b5563;
-        font-size: 11px;
-        transform: scale(0.96);
+        margin-top: 5px;
+        color: #2b2f36;
+        font-size: 12px;
+        line-height: 14px;
       }
 
       .is-active {
-        color: #3d8bff;
-        font-weight: 600;
+        color: #3b7ff3;
+        font-weight: 500;
       }
     }
   }
@@ -173,6 +201,6 @@ onUpdated(() => {
 }
 
 :deep(.van-tabbar-item) {
-  padding: 4px 0 0;
+  padding: 2px 0 0;
 }
 </style>

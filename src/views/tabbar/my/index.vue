@@ -110,7 +110,7 @@ const onInfoCard = (item) => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-bottom: 88px;
+  padding-bottom: 104px;
   background: #fbfafc;
   overflow: auto;
   box-sizing: border-box;

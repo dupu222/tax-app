@@ -177,7 +177,7 @@ onMounted(async () => {
 <style scoped lang="scss">
 .home-page {
   height: 100%;
-  padding: 0 0 88px;
+  padding: 0 0 104px;
   overflow: auto;
   background: linear-gradient(
     180deg,
