@@ -9,7 +9,7 @@
     </div>
 
     <div class="tabbar">
-      <van-tabbar v-model="active" @change="onChange">
+      <van-tabbar v-model="active" :fixed="false" :border="false" :safe-area-inset-bottom="false" @change="onChange">
         <van-tabbar-item v-for="item in tabbarList" :key="item.path" :name="item.path">
           <template #icon="props">
             <div class="tabbar-item">
@@ -90,6 +90,7 @@ onUpdated(() => {
 
 <style scoped lang="scss">
 .home {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -103,10 +104,20 @@ onUpdated(() => {
   }
 
   .tabbar {
+    position: absolute;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    left: 12px;
+    z-index: 40;
     height: 56px;
-    background: rgba(255, 255, 255, 0.96);
-    border-top: 1px solid rgba(238, 237, 237, 0.6);
-    box-shadow: 0 -6px 16px rgba(20, 50, 90, 0.06);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 28px;
+    box-shadow: 0 8px 24px rgba(20, 50, 90, 0.16);
+    -webkit-backdrop-filter: saturate(180%) blur(22px);
+    backdrop-filter: saturate(180%) blur(22px);
+    isolation: isolate;
 
     .tabbar-item {
       display: flex;
@@ -135,6 +146,18 @@ onUpdated(() => {
   }
 }
 
+:deep(.van-tabbar) {
+  height: 100%;
+  background: transparent;
+  box-shadow: none;
+  --van-tabbar-background: transparent;
+  --van-tabbar-item-active-background: transparent;
+}
+
+:deep(.van-tabbar::after) {
+  display: none;
+}
+
 :deep(.van-tabbar--fixed) {
   position: relative;
   height: 100%;
@@ -142,6 +165,11 @@ onUpdated(() => {
 
 :deep(.van-tabbar-item__icon) {
   margin-bottom: 0;
+}
+
+:deep(.van-tabbar-item),
+:deep(.van-tabbar-item--active) {
+  background: transparent;
 }
 
 :deep(.van-tabbar-item) {

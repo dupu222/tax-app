@@ -177,7 +177,7 @@ onMounted(async () => {
 <style scoped lang="scss">
 .home-page {
   height: 100%;
-  padding: 0 0 24px;
+  padding: 0 0 88px;
   overflow: auto;
   background: linear-gradient(
     180deg,
@@ -215,7 +215,7 @@ onMounted(async () => {
   color: #9aa3b2;
   font-size: 14px;
   background: rgba(255, 255, 255, 0.78);
-  border-radius: 18px;
+  border-radius: 6px;
   box-shadow: none;
 
   .search-icon {
@@ -229,7 +229,6 @@ onMounted(async () => {
   width: 24px;
   height: 24px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
 }
 
 .ticker {

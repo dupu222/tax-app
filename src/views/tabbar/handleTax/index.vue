@@ -70,7 +70,7 @@ const goPage = (item, val) => {
 
 <style scoped lang="scss">
 .page-body {
-  padding-bottom: 16px;
+  padding-bottom: 88px;
 }
 
 .main {
