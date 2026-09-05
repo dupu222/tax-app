@@ -60,21 +60,22 @@
           <img src="../../../assets/home/right-jiantou.png" alt="" />
         </div>
       </div>
-      <!-- 业务分类 -->
-      <div class="business-grid">
+      <!-- 快捷菜单：横向滑动 -->
+      <div class="shortcut-scroll">
         <div
           v-for="(item, index) in busniessList"
           :key="item.id"
-          class="business-card"
-          :class="`business-card--type${index}`"
+          class="shortcut-item"
+          :class="`shortcut-item--t${index % 4}`"
+          @click="toPage(item)"
         >
-          <div class="business-card-content">
-            <img v-if="item.icon" :src="item.icon" class="business-card-icon" alt="" />
-            <div class="business-card-title">{{ item.title }}</div>
-            <div class="business-card-desc">{{ item.description }}</div>
+          <div class="shortcut-item__icon">
+            <img v-if="item.icon" :src="item.icon" alt="" />
           </div>
-          <div class="business-card-btn" :class="`business-card-btn--type${index}`" @click="toPage(item)">
-            {{ getButtonText(item.title) }}
+          <div class="shortcut-item__card">
+            <div class="shortcut-item__title">{{ item.title }}</div>
+            <div class="shortcut-item__desc">{{ item.description }}</div>
+            <span class="shortcut-item__action">{{ getButtonText(item.title) }}</span>
           </div>
         </div>
       </div>
@@ -451,7 +452,7 @@ nextTick(() => {
     justify-content: space-between;
     align-items: center;
     margin-top: 5px;
-    padding: 20px 14px 20px 18px;
+    padding: 20px 14px 6px 18px;
     .norml-business {
       display: flex;
       img {
@@ -480,88 +481,154 @@ nextTick(() => {
       }
     }
   }
-  // 业务分类网格
-  .business-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 0 18px 20px 18px;
+  // 快捷菜单：单行横滑，图标咬住左上角，右下角为贴边圆角块
+  .shortcut-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 16px 22px 18px;
+    background: linear-gradient(180deg, #f3f7fc 0%, #ffffff 100%);
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
-  .business-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 16px 12px 12px 12px;
-    background: #f5f7fa;
-    border-radius: 8px;
-    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.06);
-    min-height: 160px;
+  .shortcut-item {
+    --shortcut-icon: 42px;
+    --shortcut-over: 14px;
+    --shortcut-cut: 25px;
+    --shortcut-cut-at: 7px;
+    --shortcut-pale: #e8f1ff;
+    --shortcut-accent: #3d82f5;
+    --shortcut-glow: rgba(61, 130, 245, 0.32);
 
-    .business-card-content {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+    position: relative;
+    flex: 0 0 auto;
+    width: calc(128px + var(--shortcut-over));
+    padding-top: var(--shortcut-over);
+    padding-left: var(--shortcut-over);
+    cursor: pointer;
+
+    &--t0 {
+      --shortcut-pale: #e8f1ff;
+      --shortcut-accent: #3d82f5;
+      --shortcut-glow: rgba(61, 130, 245, 0.32);
+    }
+    &--t1 {
+      --shortcut-pale: #f2ecff;
+      --shortcut-accent: #8a6fe3;
+      --shortcut-glow: rgba(138, 111, 227, 0.32);
+    }
+    &--t2 {
+      --shortcut-pale: #e4f7f1;
+      --shortcut-accent: #2db892;
+      --shortcut-glow: rgba(45, 184, 146, 0.32);
+    }
+    &--t3 {
+      --shortcut-pale: #e8f1ff;
+      --shortcut-accent: #3d82f5;
+      --shortcut-glow: rgba(61, 130, 245, 0.32);
     }
 
-    .business-card-icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 12px;
-      border-radius: 22px;
-      object-fit: contain;
+    &__icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      width: var(--shortcut-icon);
+      height: var(--shortcut-icon);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 6px 12px var(--shortcut-glow);
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     }
 
-    .business-card-title {
+    &__card {
+      position: relative;
+      box-sizing: border-box;
+      width: 128px;
+      min-height: 156px;
+      padding: 26px 10px 36px 12px;
+      overflow: hidden;
+      background: #fff;
+      border-radius: 16px;
+      filter: drop-shadow(0 8px 16px rgba(70, 100, 150, 0.12));
+      // 左上角让出略大于图标的圆弧，图标骑在切口上：相交、留缝、不分离
+      -webkit-mask-image: radial-gradient(
+        circle var(--shortcut-cut) at var(--shortcut-cut-at) var(--shortcut-cut-at),
+        transparent calc(var(--shortcut-cut) - 0.5px),
+        #000 var(--shortcut-cut)
+      );
+      mask-image: radial-gradient(
+        circle var(--shortcut-cut) at var(--shortcut-cut-at) var(--shortcut-cut-at),
+        transparent calc(var(--shortcut-cut) - 0.5px),
+        #000 var(--shortcut-cut)
+      );
+    }
+
+    &__title {
+      display: -webkit-box;
       margin-bottom: 6px;
+      overflow: hidden;
       font-size: 15px;
-      font-weight: 500;
-      color: #1a1a1a;
+      font-weight: 600;
       line-height: 21px;
+      color: #1a1a1a;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
-    .business-card-desc {
-      margin-bottom: 12px;
+    &__desc {
+      display: -webkit-box;
+      overflow: hidden;
       font-size: 12px;
       font-weight: normal;
-      color: #999999;
       line-height: 17px;
+      color: #8c8c8c;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
-    .business-card-btn {
-      align-self: flex-end;
-      padding: 6px 20px;
-      border-radius: 15px;
-      font-size: 13px;
-      font-weight: normal;
-      color: #ffffff;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    // 贴住右下角的圆角矩形变体：左侧大圆角，右下跟随卡片圆角；内外凹角衔接卡片
+    &__action {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      padding: 5px 12px 7px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 16px;
+      color: var(--shortcut-accent);
+      white-space: nowrap;
+      background: var(--shortcut-pale);
+      border-radius: 18px 0 16px 0;
 
-      &:active {
-        opacity: 0.8;
-        transform: scale(0.98);
+      &::before,
+      &::after {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        content: '';
+        background: radial-gradient(circle at 0 0, transparent 10px, var(--shortcut-pale) 10.5px);
       }
-
-      // 蓝色渐变按钮 - 综合所得年度汇算
-      &--type0 {
-        background: linear-gradient(135deg, #5d9cec 0%, #4286f5 100%);
+      &::before {
+        top: -10px;
+        right: 0;
       }
-
-      // 紫色渐变按钮 - 收入纳税明细
-      &--type1 {
-        background: linear-gradient(135deg, #9b8edd 0%, #7e6bc7 100%);
-      }
-
-      // 青绿色渐变按钮 - 纳税记录开具
-      &--type2 {
-        background: linear-gradient(135deg, #5bd5b0 0%, #3ec79d 100%);
-      }
-
-      // 蓝色渐变按钮 - 更多功能
-      &--type3 {
-        background: linear-gradient(135deg, #5d9cec 0%, #4286f5 100%);
+      &::after {
+        bottom: 0;
+        left: -10px;
       }
     }
   }
