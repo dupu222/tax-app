@@ -493,7 +493,7 @@ nextTick(() => {
     flex-direction: column;
     justify-content: space-between;
     padding: 16px 12px 12px 12px;
-    background: #ffffff;
+    background: #f5f7fa;
     border-radius: 8px;
     box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.06);
     min-height: 160px;
@@ -508,7 +508,7 @@ nextTick(() => {
       width: 48px;
       height: 48px;
       margin-bottom: 12px;
-      border-radius: 12px;
+      border-radius: 22px;
       object-fit: contain;
     }
 
