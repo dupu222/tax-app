@@ -61,22 +61,21 @@
         </div>
       </div>
       <!-- 业务分类 -->
-      <div>
+      <div class="business-grid">
         <div
           v-for="(item, index) in busniessList"
           :key="item.id"
-          class="sort-business"
-          :class="`sort-business--bac${index}`"
-          @click="toPage(item)"
+          class="business-card"
+          :class="`business-card--type${index}`"
         >
-          <div class="business-main">
-            <img v-if="item.icon" :src="item.icon" class="business-icon" alt="" />
-            <div class="text-box">
-              <div class="business-title">{{ item.title }}</div>
-              <div class="business-text">{{ item.description }}</div>
-            </div>
+          <div class="business-card-content">
+            <img v-if="item.icon" :src="item.icon" class="business-card-icon" alt="" />
+            <div class="business-card-title">{{ item.title }}</div>
+            <div class="business-card-desc">{{ item.description }}</div>
           </div>
-          <img class="right-arrow" src="../../../assets/home/right-jiantou.png" alt="" />
+          <div class="business-card-btn" :class="`business-card-btn--type${index}`" @click="toPage(item)">
+            {{ getButtonText(item.title) }}
+          </div>
         </div>
       </div>
       <!-- 热点问题 -->
@@ -192,6 +191,23 @@ const goPage = (item) => {
     name: routerName || '',
   });
 };
+// 获取按钮文本
+const getButtonText = (title) => {
+  switch (title) {
+    case '综合所得年度汇算':
+      return '去申报';
+    case '收入纳税明细':
+    case '收入纳税明细查询':
+      return '去查询';
+    case '纳税记录开具':
+      return '去开具';
+    case '更多功能':
+      return '去使用';
+    default:
+      return '去查看';
+  }
+};
+
 // 常用业务部分，跳转页面
 const toPage = (item) => {
   let toName = '';
@@ -203,6 +219,7 @@ const toPage = (item) => {
       toName = 'EmptyPage';
       break;
     case '收入纳税明细查询':
+    case '收入纳税明细':
       toName = 'TaxDeatilsSearch';
       break;
     case '纳税记录开具':
@@ -463,59 +480,89 @@ nextTick(() => {
       }
     }
   }
-  // 业务分类
-  .sort-business {
+  // 业务分类网格
+  .business-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 18px 20px 18px;
+  }
+
+  .business-card {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    margin-left: 18px;
-    margin-bottom: 15px;
-    padding: 12px;
-    width: 347px;
-    border-radius: 4px;
+    padding: 16px 12px 12px 12px;
     background: #ffffff;
-    &--bac0 {
-      box-shadow: 2px 0px 0px 0px #ed6e90 inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
-    }
-    &--bac1 {
-      box-shadow: 2px 0px 0px 0px #82d7ae inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
-    }
-    &--bac2 {
-      box-shadow: 2px 0px 0px 0px #9b8edd inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
-    }
-    &--bac3 {
-      box-shadow: 2px 0px 0px 0px #edca92 inset, 0px 0px 7px 0px rgba(0, 0, 0, 0.05);
-    }
-    .business-main {
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.06);
+    min-height: 160px;
+
+    .business-card-content {
       display: flex;
-      align-items: center;
-      min-width: 0;
+      flex-direction: column;
+      align-items: flex-start;
     }
-    .business-icon {
-      width: 36px;
-      height: 36px;
-      margin-right: 10px;
+
+    .business-card-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      border-radius: 12px;
       object-fit: contain;
-      flex-shrink: 0;
     }
-    .business-title {
-      margin-bottom: 5px;
-      font-size: 14px;
+
+    .business-card-title {
+      margin-bottom: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #1a1a1a;
+      line-height: 21px;
+    }
+
+    .business-card-desc {
+      margin-bottom: 12px;
+      font-size: 12px;
       font-weight: normal;
-      color: #3d3d3d;
-      line-height: 20px;
+      color: #999999;
+      line-height: 17px;
     }
-    .business-text {
+
+    .business-card-btn {
+      align-self: flex-end;
+      padding: 6px 20px;
+      border-radius: 15px;
       font-size: 13px;
       font-weight: normal;
-      color: #929191;
-      line-height: 16px;
-    }
-    .right-arrow {
-      width: 14px;
-      height: 14px;
-      margin-left: 15px;
-      flex-shrink: 0;
+      color: #ffffff;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:active {
+        opacity: 0.8;
+        transform: scale(0.98);
+      }
+
+      // 蓝色渐变按钮 - 综合所得年度汇算
+      &--type0 {
+        background: linear-gradient(135deg, #5d9cec 0%, #4286f5 100%);
+      }
+
+      // 紫色渐变按钮 - 收入纳税明细
+      &--type1 {
+        background: linear-gradient(135deg, #9b8edd 0%, #7e6bc7 100%);
+      }
+
+      // 青绿色渐变按钮 - 纳税记录开具
+      &--type2 {
+        background: linear-gradient(135deg, #5bd5b0 0%, #3ec79d 100%);
+      }
+
+      // 蓝色渐变按钮 - 更多功能
+      &--type3 {
+        background: linear-gradient(135deg, #5d9cec 0%, #4286f5 100%);
+      }
     }
   }
 
