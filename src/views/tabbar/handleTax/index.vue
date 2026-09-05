@@ -1,15 +1,20 @@
 <template>
   <Header>
-    <div>办税</div>
+    <div>办&amp;查</div>
   </Header>
-  <div style="margin-bottom: 70px">
-    <div v-for="(item, index) in sortList" :key="index" class="main">
+  <div class="page-body">
+    <div v-for="(item, index) in sortList" :key="`${item.type}-${item.modeClassify}-${index}`" class="main">
       <div class="main-title">
         <div class="main-line"></div>
         <div class="main-text">{{ item.modeClassify }}</div>
       </div>
       <div class="main-sort">
-        <div v-for="val in item.list" :key="val.sortOrder" class="sort-box" @click="goPage(item, val)">
+        <div
+          v-for="val in item.list"
+          :key="`${item.modeClassify}-${val.sortOrder}`"
+          class="sort-box"
+          @click="goPage(item, val)"
+        >
           <img class="sort-logo" :src="val.icon" alt="" />
           <div class="sort-text">{{ val.title }}</div>
         </div>
@@ -25,25 +30,28 @@ import Header from '@/components/Header/index.vue';
 import { usePublicStore } from '@/store/modules/public';
 
 const router = useRouter();
-
-// 获取页面分类信息
 const sortList = ref([]);
 const publicStore = usePublicStore();
 
 const sortInit = async () => {
-  const list = await publicStore.action_tax_icons({ type: 2 });
-  sortList.value = list;
+  const tax = await publicStore.action_tax_icons({ type: 2 });
+  const query = await publicStore.action_tax_icons({ type: 3 });
+  sortList.value = [...(tax || []), ...(query || [])];
 };
 sortInit();
 
-// 页面跳转
 const goPage = (item, val) => {
   let routerName = '';
   const titleName = val.title;
   switch (item.modeClassify) {
     case '证明开具':
+      routerName = val.sortOrder === '1' ? 'HtRecordsOpener' : 'EmptyPage';
+      break;
+    case '申报信息查询':
       if (val.sortOrder === '1') {
-        routerName = 'HtRecordsOpener';
+        routerName = 'DeclarationQuery';
+      } else if (val.sortOrder === '3') {
+        routerName = 'TaxDeatilsSearch';
       } else {
         routerName = 'EmptyPage';
       }
@@ -61,52 +69,63 @@ const goPage = (item, val) => {
 </script>
 
 <style scoped lang="scss">
+.page-body {
+  padding-bottom: 104px;
+}
+
 .main {
   margin-bottom: 11px;
   background-color: #fff;
+
   .main-title {
-    padding: 12px;
     display: flex;
     align-items: center;
+    padding: 12px;
     border-bottom: 1px solid rgba(238, 237, 237, 0.6);
+
     .main-line {
       width: 4px;
       height: 17px;
-      background: #4981ff;
       margin-right: 9px;
+      background: #4981ff;
       border-radius: 466px;
     }
+
     .main-text {
+      color: #282828;
       font-size: 14px;
       font-weight: bold;
       letter-spacing: 0.08em;
-      color: #282828;
     }
   }
+
   .main-sort {
     display: flex;
     flex-wrap: wrap;
-    padding: 20px 0 10px 0;
     height: 100%;
+    padding: 20px 0 10px;
+
     .sort-box {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 33.33%;
+
       .sort-logo {
-        margin-bottom: 6px;
         width: 48px;
         height: 48px;
+        margin-bottom: 6px;
         object-fit: contain;
       }
+
       .sort-text {
         width: 77px;
         height: 33px;
+        margin-bottom: 14px;
         color: #3d3d3d;
         font-size: 12px;
-        text-align: center;
         line-height: 17px;
-        margin-bottom: 14px;
+        text-align: center;
       }
     }
   }

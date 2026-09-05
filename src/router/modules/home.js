@@ -1,4 +1,9 @@
 export default [
+  {
+    path: '/function-search',
+    name: 'FunctionSearch',
+    component: () => import('@/views/home/functionSearch/index.vue'),
+  },
   // 首页-我要查询
   {
     path: '/ineedsearch',

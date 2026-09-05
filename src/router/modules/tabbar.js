@@ -14,9 +14,19 @@ export default [
         },
       },
       {
+        path: '/todo',
+        name: 'Todo',
+        component: () => import('@/views/tabbar/todo/index.vue'),
+      },
+      {
         path: '/handle-tax',
         name: 'HandleTax',
         component: () => import('@/views/tabbar/handleTax/index.vue'),
+      },
+      {
+        path: '/message',
+        name: 'Message',
+        component: () => import('@/views/tabbar/message/index.vue'),
       },
       {
         path: '/service',
