@@ -272,6 +272,7 @@ nextTick(() => {
   }
   // 下半部分盒子
   .xia {
+    overflow: visible;
     background-color: #fff;
   }
   // 搜索部分
@@ -482,14 +483,15 @@ nextTick(() => {
     }
   }
   // 快捷菜单：单行横滑，图标咬住左上角，右下角为贴边圆角块
+  // 尺寸必须写死 px，交给 pxtorem，不能放进 CSS 变量（变量里的 px 不会转 rem）
   .shortcut-scroll {
     display: flex;
     flex-wrap: nowrap;
-    gap: 12px;
+    gap: 14px;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 8px 16px 22px 18px;
-    background: linear-gradient(180deg, #f3f7fc 0%, #ffffff 100%);
+    padding: 10px 16px 24px 20px;
+    background: linear-gradient(180deg, #eef4fb 0%, #ffffff 100%);
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
@@ -499,40 +501,36 @@ nextTick(() => {
   }
 
   .shortcut-item {
-    --shortcut-icon: 42px;
-    --shortcut-over: 14px;
-    --shortcut-cut: 25px;
-    --shortcut-cut-at: 7px;
     --shortcut-pale: #e8f1ff;
     --shortcut-accent: #3d82f5;
-    --shortcut-glow: rgba(61, 130, 245, 0.32);
+    --shortcut-glow: rgba(61, 130, 245, 0.35);
 
     position: relative;
-    flex: 0 0 auto;
-    width: calc(128px + var(--shortcut-over));
-    padding-top: var(--shortcut-over);
-    padding-left: var(--shortcut-over);
+    flex: 0 0 146px;
+    width: 146px;
+    padding-top: 22px;
+    padding-left: 22px;
     cursor: pointer;
 
     &--t0 {
       --shortcut-pale: #e8f1ff;
       --shortcut-accent: #3d82f5;
-      --shortcut-glow: rgba(61, 130, 245, 0.32);
+      --shortcut-glow: rgba(61, 130, 245, 0.35);
     }
     &--t1 {
       --shortcut-pale: #f2ecff;
       --shortcut-accent: #8a6fe3;
-      --shortcut-glow: rgba(138, 111, 227, 0.32);
+      --shortcut-glow: rgba(138, 111, 227, 0.35);
     }
     &--t2 {
       --shortcut-pale: #e4f7f1;
       --shortcut-accent: #2db892;
-      --shortcut-glow: rgba(45, 184, 146, 0.32);
+      --shortcut-glow: rgba(45, 184, 146, 0.35);
     }
     &--t3 {
       --shortcut-pale: #e8f1ff;
       --shortcut-accent: #3d82f5;
-      --shortcut-glow: rgba(61, 130, 245, 0.32);
+      --shortcut-glow: rgba(61, 130, 245, 0.35);
     }
 
     &__icon {
@@ -540,12 +538,12 @@ nextTick(() => {
       top: 0;
       left: 0;
       z-index: 2;
-      width: var(--shortcut-icon);
-      height: var(--shortcut-icon);
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
       overflow: hidden;
       background: #fff;
-      box-shadow: 0 6px 12px var(--shortcut-glow);
+      box-shadow: 0 6px 14px var(--shortcut-glow);
       img {
         display: block;
         width: 100%;
@@ -557,24 +555,15 @@ nextTick(() => {
     &__card {
       position: relative;
       box-sizing: border-box;
-      width: 128px;
-      min-height: 156px;
-      padding: 26px 10px 36px 12px;
-      overflow: hidden;
+      width: 124px;
+      min-height: 158px;
+      padding: 28px 10px 38px 12px;
       background: #fff;
       border-radius: 16px;
-      filter: drop-shadow(0 8px 16px rgba(70, 100, 150, 0.12));
-      // 左上角让出略大于图标的圆弧，图标骑在切口上：相交、留缝、不分离
-      -webkit-mask-image: radial-gradient(
-        circle var(--shortcut-cut) at var(--shortcut-cut-at) var(--shortcut-cut-at),
-        transparent calc(var(--shortcut-cut) - 0.5px),
-        #000 var(--shortcut-cut)
-      );
-      mask-image: radial-gradient(
-        circle var(--shortcut-cut) at var(--shortcut-cut-at) var(--shortcut-cut-at),
-        transparent calc(var(--shortcut-cut) - 0.5px),
-        #000 var(--shortcut-cut)
-      );
+      box-shadow: 0 8px 18px rgba(70, 100, 150, 0.1);
+      // 圆心对准卡片左上角；用 rem 避免 gradient 内 px 不被 pxtorem 转换
+      -webkit-mask-image: radial-gradient(circle 0.69333rem at 0 0, transparent 0.68rem, #000 0.69333rem);
+      mask-image: radial-gradient(circle 0.69333rem at 0 0, transparent 0.68rem, #000 0.69333rem);
     }
 
     &__title {
@@ -600,35 +589,36 @@ nextTick(() => {
       -webkit-box-orient: vertical;
     }
 
-    // 贴住右下角的圆角矩形变体：左侧大圆角，右下跟随卡片圆角；内外凹角衔接卡片
+    // 贴住右下角的圆角矩形变体，不是胶囊
     &__action {
       position: absolute;
       right: 0;
       bottom: 0;
-      padding: 5px 12px 7px 16px;
+      padding: 6px 12px 8px 16px;
       font-size: 12px;
       font-weight: 500;
       line-height: 16px;
       color: var(--shortcut-accent);
       white-space: nowrap;
       background: var(--shortcut-pale);
-      border-radius: 18px 0 16px 0;
+      border-radius: 16px 0 16px 0;
 
       &::before,
       &::after {
         position: absolute;
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
+        pointer-events: none;
         content: '';
-        background: radial-gradient(circle at 0 0, transparent 10px, var(--shortcut-pale) 10.5px);
+        background: radial-gradient(circle at 0 0, transparent 0.21333rem, var(--shortcut-pale) 0.22667rem);
       }
       &::before {
-        top: -10px;
+        top: -8px;
         right: 0;
       }
       &::after {
         bottom: 0;
-        left: -10px;
+        left: -8px;
       }
     }
   }
